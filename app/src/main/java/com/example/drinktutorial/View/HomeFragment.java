@@ -2,65 +2,148 @@ package com.example.drinktutorial.View;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.drinktutorial.Adapter.CustomAdapterCarousel;
+import com.example.drinktutorial.Adapter.CustomAdapterHotDrink;
+import com.example.drinktutorial.Controller.DoUongController;
+import com.example.drinktutorial.Model.CustomItem;
+import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
+import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    public Handler handler= new Handler(Looper.getMainLooper());
+    public Runnable runnable;
+    TextView tvTitleNew;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    public int currentIndex=0;
+    CustomAdapterHotDrink adapterHotDrink;
+    CustomAdapterCarousel adapterCarousel;
+    RecyclerView rycCarousel, rycDoUong,rycDoUong1;
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        View view = inflater.inflate(R.layout.fragment_home, container,false);
+        addControls(view);
+        loadDoUong();
+        initData();
+        addEvent();
+        autoScroll();
+        customView();
+
+        return view;
+    }
+
+    public void addControls(View view)
+    {
+        tvTitleNew = view.findViewById(R.id.tvTitleNews);
+        rycCarousel = view.findViewById(R.id.rycCarousel);
+        rycDoUong= view.findViewById(R.id.rycDoUong);
+        rycDoUong1 = view.findViewById(R.id.rycDoUong1);
+    }
+    public void addEvent()
+    {
+        rycCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(newState == RecyclerView.SCROLL_STATE_IDLE)
+                {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if(layoutManager!=null)
+                    {
+                        int currentVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+                        currentIndex = currentVisiblePosition + 1;
+                    }
+                }
+            }
+        });
+    }
+    public void customView()
+    {
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(rycCarousel);
+        int space = getResources().getDimensionPixelSize(R.dimen.recycler_view_item_space);
+        rycCarousel.addItemDecoration(new SpacesItemDecoration(space));
+    }
+    public void autoScroll()
+    {
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (adapterCarousel != null)
+                {
+                    if (currentIndex == adapterCarousel.getItemCount()) {
+                        currentIndex = 0;
+                    }
+
+                }
+                Log.d("autoScroll", "run: "+ currentIndex);
+                rycCarousel.smoothScrollToPosition(currentIndex++);
+                handler.postDelayed(this, 3000);
+            }
+        };
+        handler.postDelayed(runnable,3000);
+    }
+    public void initData()
+    {
+        rycCarousel.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        ArrayList<CustomItem> itemList = new ArrayList<>();
+        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+        adapterCarousel = new CustomAdapterCarousel(itemList);
+        rycCarousel.setAdapter(adapterCarousel);
+    }
+    public void loadDoUong()
+    {
+        DoUongController doUongController = new DoUongController();
+        doUongController.getListDU(new DoUongController.DataStatus() {
+            @Override
+            public void DataIsLoaded(ArrayList<DoUong> doUongs) {
+                Collections.shuffle(doUongs);
+                rycDoUong.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                adapterHotDrink = new CustomAdapterHotDrink(doUongs);
+                rycDoUong.setAdapter(adapterHotDrink);
+
+                rycDoUong1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                adapterHotDrink = new CustomAdapterHotDrink(doUongs);
+                rycDoUong1.setAdapter(adapterHotDrink);
+            }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        handler.removeCallbacks(runnable);
     }
 }
