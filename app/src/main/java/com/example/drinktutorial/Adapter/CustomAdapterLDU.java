@@ -1,6 +1,5 @@
 package com.example.drinktutorial.Adapter;
 
-import com.bumptech.glide.Glide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +9,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.R;
 
 import java.util.ArrayList;
 
-public class CustomAdapterHotDrink extends RecyclerView.Adapter<CustomAdapterHotDrink.ViewHolder> {
-    ArrayList<DoUong> doUongs;
+public class CustomAdapterLDU extends RecyclerView.Adapter<CustomAdapterLDU.ViewHolder>{
+    ArrayList<LoaiDoUong> loaiDoUongs;
 
-    public CustomAdapterHotDrink(ArrayList<DoUong> doUongs) {
-        this.doUongs = doUongs;
+    public CustomAdapterLDU(ArrayList<LoaiDoUong> loaiDoUongs) {
+        this.loaiDoUongs = loaiDoUongs;
     }
-
-
 
     @NonNull
     @Override
@@ -34,16 +32,16 @@ public class CustomAdapterHotDrink extends RecyclerView.Adapter<CustomAdapterHot
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        DoUong doUong = doUongs.get(position);
+        LoaiDoUong loaiDoUong = loaiDoUongs.get(position);
         Glide.with(holder.itemView.getContext())
-                .load(doUong.getHinhAnh())
+                .load(loaiDoUong.getHinhAnh())
                 .into(holder.imageView);
-        holder.textView.setText(doUong.getName());
+        holder.textView.setText(loaiDoUong.getTenLoai());
     }
 
     @Override
     public int getItemCount() {
-        return doUongs.size();
+        return loaiDoUongs.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,42 +1,40 @@
 package com.example.drinktutorial.Model;
 
-public class LoaiDoUong
-{
-    public String id_LDU;
-    public String tenLoai;
-    public String hinhAnh;
+public class LoaiDoUong {
+    private String idLDU;
+    private String TenLoai;
+    private String HinhAnh;
 
-    public LoaiDoUong(String id_LDU, String tenLoai, String hinhAnh) {
-        this.id_LDU = id_LDU;
-        this.tenLoai = tenLoai;
-        this.hinhAnh = hinhAnh;
+    public LoaiDoUong(String idLDU, String TenLoai, String HinhAnh) {
+        this.idLDU = idLDU;
+        this.TenLoai = TenLoai;
+        this.HinhAnh = HinhAnh;
     }
 
     public LoaiDoUong() {
     }
 
-    public String getId_LDU() {
-        return id_LDU;
+    public String getIdLDU() {
+        return idLDU;
     }
 
-    public void setId_LDU(String id_LDU) {
-        this.id_LDU = id_LDU;
+    public void setIdLDU(String idLDU) {
+        this.idLDU = idLDU;
     }
 
     public String getTenLoai() {
-        return tenLoai;
+        return TenLoai;
     }
 
-    public void setTenLoai(String tenLoai) {
-        this.tenLoai = tenLoai;
+    public void setTenLoai(String TenLoai) {
+        this.TenLoai = TenLoai;
     }
 
     public String getHinhAnh() {
-        return hinhAnh;
+        return HinhAnh;
     }
 
-    public void setHinhAnh(String hinhAnh) {
-        this.hinhAnh = hinhAnh;
+    public void setHinhAnh(String HinhAnh) {
+        this.HinhAnh = HinhAnh;
     }
-
 }

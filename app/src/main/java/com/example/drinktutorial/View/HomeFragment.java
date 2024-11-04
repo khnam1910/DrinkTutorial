@@ -20,9 +20,12 @@ import android.widget.Toast;
 
 import com.example.drinktutorial.Adapter.CustomAdapterCarousel;
 import com.example.drinktutorial.Adapter.CustomAdapterHotDrink;
+import com.example.drinktutorial.Adapter.CustomAdapterLDU;
 import com.example.drinktutorial.Controller.DoUongController;
+import com.example.drinktutorial.Controller.LoaiDoUongController;
 import com.example.drinktutorial.Model.CustomItem;
 import com.example.drinktutorial.Model.DoUong;
+import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.R;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,7 +41,8 @@ public class HomeFragment extends Fragment {
     public int currentIndex=0;
     CustomAdapterHotDrink adapterHotDrink;
     CustomAdapterCarousel adapterCarousel;
-    RecyclerView rycCarousel, rycDoUong,rycDoUong1;
+    CustomAdapterLDU adapterLDU;
+    RecyclerView rycCarousel, rycDoUong,rycDoUong1, rycLDU;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -49,9 +53,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         View view = inflater.inflate(R.layout.fragment_home, container,false);
         addControls(view);
+        loadLDU();
         loadDoUong();
         initData();
         addEvent();
@@ -67,6 +71,7 @@ public class HomeFragment extends Fragment {
         rycCarousel = view.findViewById(R.id.rycCarousel);
         rycDoUong= view.findViewById(R.id.rycDoUong);
         rycDoUong1 = view.findViewById(R.id.rycDoUong1);
+        rycLDU = view.findViewById(R.id.rycLDU);
     }
     public void addEvent()
     {
@@ -137,6 +142,20 @@ public class HomeFragment extends Fragment {
                 rycDoUong1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 adapterHotDrink = new CustomAdapterHotDrink(doUongs);
                 rycDoUong1.setAdapter(adapterHotDrink);
+            }
+        });
+    }
+
+    public void loadLDU()
+    {
+        LoaiDoUongController loaiDoUongController = new LoaiDoUongController();
+        loaiDoUongController.getListLDU(new LoaiDoUongController.DataStatus() {
+            @Override
+            public void DataIsLoaded(ArrayList<LoaiDoUong> loaiDoUongs) {
+                Collections.shuffle(loaiDoUongs);
+                rycLDU.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                adapterLDU = new CustomAdapterLDU(loaiDoUongs);
+                rycLDU.setAdapter(adapterLDU);
             }
         });
     }
