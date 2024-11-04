@@ -78,7 +78,7 @@
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:text="Đồ uống " />
+                    android:text="Đồ uống mới nhất" />
 
                 <TextView
                     android:id="@+id/tvShowMore1"

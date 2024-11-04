@@ -36,7 +36,6 @@ public class DoUongController {
                     }
                 }
 
-                // Gọi phương thức của interface sau khi dữ liệu được tải xong
                 dataStatus.DataIsLoaded(doUongs);
             }
 

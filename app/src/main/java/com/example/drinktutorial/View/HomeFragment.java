@@ -29,8 +29,15 @@ import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.R;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment {
 
@@ -57,6 +64,7 @@ public class HomeFragment extends Fragment {
         addControls(view);
         loadLDU();
         loadDoUong();
+        loadDUTheoNgay();
         initData();
         addEvent();
         autoScroll();
@@ -139,12 +147,59 @@ public class HomeFragment extends Fragment {
                 adapterHotDrink = new CustomAdapterHotDrink(doUongs);
                 rycDoUong.setAdapter(adapterHotDrink);
 
-                rycDoUong1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                adapterHotDrink = new CustomAdapterHotDrink(doUongs);
-                rycDoUong1.setAdapter(adapterHotDrink);
             }
         });
     }
+    public void loadDUTheoNgay() {
+        DoUongController doUongController = new DoUongController();
+        doUongController.getListDU(new DoUongController.DataStatus() {
+            @Override
+            public void DataIsLoaded(ArrayList<DoUong> doUongs) {
+
+                Calendar calendar = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                Date currentDate = calendar.getTime();
+
+
+                long[] daysDifferences = new long[doUongs.size()];
+
+                for (int i = 0; i < doUongs.size(); i++) {
+                    DoUong doUong = doUongs.get(i);
+                    try {
+                        Date drinkDate = sdf.parse(doUong.getNgay());
+                        long diffInMillis = currentDate.getTime() - drinkDate.getTime();
+                        long diffInDays = diffInMillis / (24 * 60 * 60 * 1000);
+                        daysDifferences[i] = diffInDays;
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                Long[] sortedDaysDifferences = Arrays.stream(daysDifferences).boxed().toArray(Long[]::new);
+                Arrays.sort(sortedDaysDifferences);
+
+                ArrayList<DoUong> sortedDoUongs = new ArrayList<>();
+
+
+                for (long dayDifference : sortedDaysDifferences) {
+                    for (int j = daysDifferences.length - 1; j > 0; j--) {
+                        if (daysDifferences[j] == dayDifference) {
+                            sortedDoUongs.add(doUongs.get(j));
+                        }
+                    }
+                }
+
+
+                rycDoUong1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                adapterHotDrink = new CustomAdapterHotDrink(sortedDoUongs);
+                rycDoUong1.setAdapter(adapterHotDrink);
+            }
+
+        });
+    }
+
+
 
     public void loadLDU()
     {
