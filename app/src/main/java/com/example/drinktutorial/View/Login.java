@@ -63,9 +63,7 @@ public class Login extends AppCompatActivity {
                     auth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
-                                auth = FirebaseAuth.getInstance();
-
+                            if (task.isSuccessful()) {
                                 SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("isLoggedIn", true);
@@ -75,8 +73,7 @@ public class Login extends AppCompatActivity {
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(Login.this, "Đăng nhập thất bại" + task.getException(), Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -109,7 +106,7 @@ public class Login extends AppCompatActivity {
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
-                        .requestEmail().build();
+                .requestEmail().build();
         mGoogleSignInClient = GoogleSignIn.getClient(Login.this, options);
         auth = FirebaseAuth.getInstance();
 
