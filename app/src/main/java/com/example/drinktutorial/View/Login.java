@@ -2,6 +2,7 @@ package com.example.drinktutorial.View;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +65,12 @@ public class Login extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
                                 auth = FirebaseAuth.getInstance();
-                                Glide.with(Login.this).load(auth.getCurrentUser().getPhotoUrl()).into(loginGoogle);
+
+                                SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                editor.apply();
+
                                 Toast.makeText(Login.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
@@ -88,6 +94,15 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn) {
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         FirebaseApp.initializeApp(this);
         addControls();
@@ -175,6 +190,12 @@ public class Login extends AppCompatActivity {
                         userFound = true;
                         String passwordFromDB = userSnapshot.child("matkhau").getValue(String.class);
                         if (passwordFromDB != null && passwordFromDB.equals(userPassword)) {
+                            //Lưu thông tin đăng nhập
+                            SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.apply();
+
                             String nameFromDB = userSnapshot.child("hoten").getValue(String.class);
                             String emailFromDB = userSnapshot.child("email").getValue(String.class);
 
