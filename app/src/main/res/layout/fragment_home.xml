@@ -78,7 +78,7 @@
                     android:textColor="@color/black"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    android:text="Đồ uống mới nhất" />
+                    android:text="Đồ uống " />
 
                 <TextView
                     android:id="@+id/tvShowMore1"
@@ -131,13 +131,7 @@
                 android:id="@+id/rycLDU"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <androidx.constraintlayout.helper.widget.Flow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

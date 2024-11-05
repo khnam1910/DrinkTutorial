@@ -10,23 +10,18 @@ public class DoUong {
     private String Name;
     private String BuocPhaChe;
     private String MoTa;
-    private String Ngay;
 
     public DoUong() {
     }
 
-    public DoUong(String keyID, Map<String, Map<String, Integer>> nguyenLieu, String loai, String hinhAnh, String name, String buocPhaChe, String moTa, String ngay) {
-        this.keyID = keyID;
-        NguyenLieu = nguyenLieu;
-        Loai = loai;
-        HinhAnh = hinhAnh;
-        Name = name;
-        BuocPhaChe = buocPhaChe;
-        MoTa = moTa;
-        Ngay = ngay;
+    public DoUong(Map<String, Map<String, Integer>> NguyenLieu, String Loai, String HinhAnh, String Name, String BuocPhaChe, String MoTa) {
+        this.NguyenLieu = NguyenLieu;
+        this.Loai = Loai;
+        this.HinhAnh = HinhAnh;
+        this.Name = Name;
+        this.BuocPhaChe = BuocPhaChe;
+        this.MoTa = MoTa;
     }
-
-
 
     public String getKeyID() {
         return keyID;
@@ -82,13 +77,5 @@ public class DoUong {
 
     public void setMoTa(String MoTa) {
         this.MoTa = MoTa;
-    }
-
-    public String getNgay() {
-        return Ngay;
-    }
-
-    public void setNgay(String ngay) {
-        this.Ngay = ngay;
     }
 }
