@@ -24,15 +24,15 @@
             android:orientation="vertical"
             android:padding="24dp">
 
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Sign In"
+                android:text="Đăng nhập"
                 android:textAlignment="center"
                 android:textColor="@color/lavender"
                 android:textSize="36sp"
                 android:textStyle="bold" />
-
 
             <EditText
                 android:id="@+id/txt_Username"
@@ -42,7 +42,7 @@
                 android:background="@drawable/lavender_border"
                 android:drawableLeft="@drawable/ic_baseline_person_1"
                 android:drawablePadding="8dp"
-                android:hint="Username"
+                android:hint="Tài khoản"
                 android:padding="8dp"
                 android:textColor="@color/black" />
 
@@ -54,7 +54,7 @@
                 android:background="@drawable/lavender_border"
                 android:drawableLeft="@drawable/lock"
                 android:drawablePadding="8dp"
-                android:hint="Password"
+                android:hint="Mật khẩu"
                 android:inputType="textPassword"
                 android:padding="8dp"
                 android:textColor="@color/black" />
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
-                android:text="Login"
+                android:text="Đăng nhập"
                 android:textSize="18sp"
                 app:cornerRadius="20dp" />
 
@@ -75,7 +75,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:padding="8dp"
-                android:text="Not yet registered? Sign Up"
+                android:text="Bạn chưa có tài khoản? Đăng ký"
                 android:textColor="@color/lavender"
                 android:textSize="18sp" />
 
@@ -96,7 +96,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:padding="8dp"
-            android:text="Or sign in with"
+            android:text="Đăng nhập với google"
             android:textColor="@color/black"
             android:textSize="15sp" />
 

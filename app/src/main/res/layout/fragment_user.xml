@@ -305,7 +305,7 @@
         android:id="@+id/btn_Logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="160dp"
         android:backgroundTint="#DB0F0F"
         android:textSize="16dp"
         android:text="Đăng xuất" />

@@ -5,13 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import com.example.drinktutorial.R;
-import com.example.drinktutorial.View.Profile.Profile_Setting;
+import com.example.drinktutorial.View.Profile.Fragment_Like;
+import com.example.drinktutorial.View.Profile.Fragment_Save;
+import com.example.drinktutorial.View.Profile.Fragment_Security;
+import com.example.drinktutorial.View.Profile.Fragment_Setting;
+import com.example.drinktutorial.View.Profile.Fragment_TakeCareCustomer;
 
 public class UserFragment extends Fragment {
 
@@ -58,12 +64,52 @@ public class UserFragment extends Fragment {
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Profile_Setting.class);
-                startActivity(intent);
-                getActivity().finish();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLoad, new Fragment_Setting());
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
+        luu_baiviet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLoad, new Fragment_Save());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        thich_baiviet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLoad, new Fragment_Like());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        baomat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLoad, new Fragment_Security());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        cskh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentLoad, new Fragment_TakeCareCustomer());
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 
     private void logout() {
