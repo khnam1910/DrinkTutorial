@@ -19,6 +19,7 @@ public class LoaiDoUongController {
         void DataIsLoaded(ArrayList<LoaiDoUong> loaiDoUongs);
     }
 
+
     public void getListLDU(final DataStatus dataStatus) {
         loaiDoUongs = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("LoaiDoUong");

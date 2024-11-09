@@ -17,7 +17,7 @@ public class DoUongController {
     public ArrayList<DoUong> doUongs;
     public interface DataStatus
     {
-        void DataIsLoaded(ArrayList<DoUong> doUongs);
+        void getALlDoUong(ArrayList<DoUong> doUongs);
     }
 
     public void getListDU(final DataStatus dataStatus) {
@@ -36,8 +36,7 @@ public class DoUongController {
                     }
                 }
 
-                // Gọi phương thức của interface sau khi dữ liệu được tải xong
-                dataStatus.DataIsLoaded(doUongs);
+                dataStatus.getALlDoUong(doUongs);
             }
 
             @Override

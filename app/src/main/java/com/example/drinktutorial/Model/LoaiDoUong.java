@@ -1,6 +1,8 @@
 package com.example.drinktutorial.Model;
 
-public class LoaiDoUong {
+import java.io.Serializable;
+
+public class LoaiDoUong implements Serializable {
     private String idLDU;
     private String TenLoai;
     private String HinhAnh;

@@ -1,10 +1,14 @@
 package com.example.drinktutorial.View;
 
+import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +36,7 @@ import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.Model.LoaiNguyenLieu;
 import com.example.drinktutorial.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
@@ -78,6 +83,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
 
     public void addControls(View view)
     {
@@ -146,9 +152,10 @@ public class HomeFragment extends Fragment {
     public void loadDoUong()
     {
         DoUongController doUongController = new DoUongController();
-        doUongController.getListDU(new DoUongController.DataStatus() {
+        doUongController.getListDU(new DoUongController.DataStatus()
+        {
             @Override
-            public void DataIsLoaded(ArrayList<DoUong> doUongs) {
+            public void getALlDoUong(ArrayList<DoUong> doUongs) {
                 Collections.shuffle(doUongs);
                 rycDoUong.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 adapterHotDrink = new CustomAdapterHotDrink(doUongs);
@@ -163,7 +170,7 @@ public class HomeFragment extends Fragment {
         DoUongController doUongController = new DoUongController();
         doUongController.getListDU(new DoUongController.DataStatus() {
             @Override
-            public void DataIsLoaded(ArrayList<DoUong> doUongs) {
+            public void getALlDoUong(ArrayList<DoUong> doUongs) {
 
                 Calendar calendar = Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -208,8 +215,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void loadLDU()
-    {
+    public void loadLDU() {
         LoaiDoUongController loaiDoUongController = new LoaiDoUongController();
         loaiDoUongController.getListLDU(new LoaiDoUongController.DataStatus() {
             @Override
@@ -218,9 +224,46 @@ public class HomeFragment extends Fragment {
                 rycLDU.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 adapterLDU = new CustomAdapterLDU(loaiDoUongs);
                 rycLDU.setAdapter(adapterLDU);
+
+                adapterLDU.setOnItemClickListener(new CustomAdapterLDU.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(LoaiDoUong loaiDoUong) {
+                        Log.d("SelectedItem", "Item clicked: " + loaiDoUong.getIdLDU());
+
+                        // Tạo bundle và gắn dữ liệu cần thiết vào fragment
+                        Bundle bundle = new Bundle();
+                        bundle.putString("LoaiDoUongID", loaiDoUong.getIdLDU());
+
+                        // Tạo fragment mới và truyền bundle vào
+                        DoUongListFragment productDetailFragment = new DoUongListFragment();
+                        productDetailFragment.setArguments(bundle);
+
+                        // Gọi phương thức loadFragment() trong MainActivity để thay thế fragment
+                        if (getActivity() instanceof MainActivity) {
+                            MainActivity mainActivity = (MainActivity) getActivity();
+                            mainActivity.loadFragment(productDetailFragment);
+                        }
+
+
+                        AppCompatActivity activity = (AppCompatActivity) getActivity();
+                        if (activity != null) {
+                            Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                            TextView tvTitle = activity.findViewById(R.id.tvTitle);
+                            activity.setSupportActionBar(toolbar);
+                            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                            tvTitle.setText(loaiDoUong.getTenLoai());
+                            if (activity.getSupportActionBar() != null) {
+                                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                            }
+                        }
+                    }
+                });
             }
         });
     }
+
+
+
 
     public void loadLNL()
     {
@@ -237,5 +280,14 @@ public class HomeFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         handler.removeCallbacks(runnable);
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity instanceof MainActivity) {
+            BottomNavigationView bottomNavigationView = activity.findViewById(R.id.bottomNavigation);
+            bottomNavigationView.setVisibility(View.VISIBLE); // Hiện BottomNavigationView
+        }
     }
 }
