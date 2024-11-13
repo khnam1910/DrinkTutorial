@@ -1,4 +1,4 @@
-package com.example.drinktutorial.Adapter;
+package com.example.drinktutorial.Adapter.HomeAdapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,62 +11,68 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.drinktutorial.Model.DoUong;
-import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.R;
 
 import java.util.ArrayList;
 
-public class CustomAdapterLDU extends RecyclerView.Adapter<CustomAdapterLDU.ViewHolder>{
-    ArrayList<LoaiDoUong> loaiDoUongs;
-    private OnItemClickListener  listener;
-
-    public CustomAdapterLDU(ArrayList<LoaiDoUong> loaiDoUongs) {
-        this.loaiDoUongs = loaiDoUongs;
+public class CustomAdapterDoUongs extends RecyclerView.Adapter<CustomAdapterDoUongs.ViewHolder> {
+    ArrayList<DoUong> doUongs;
+    OnItemClickListener listener;
+    public CustomAdapterDoUongs(ArrayList<DoUong> doUongs) {
+        this.doUongs = doUongs;
     }
+
     public interface  OnItemClickListener{
-        void onItemClick(LoaiDoUong loaiDoUong);
+        void onItemClick(DoUong doUong);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         this.listener = listener;
     }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_drink, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_douongs, parent, false);
         return new ViewHolder(view, listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        LoaiDoUong loaiDoUong = loaiDoUongs.get(position);
+        DoUong doUong = doUongs.get(position);
         Glide.with(holder.itemView.getContext())
-                .load(loaiDoUong.getHinhAnh())
+                .load(doUong.getHinhAnh())
                 .into(holder.imageView);
-        holder.textView.setText(loaiDoUong.getTenLoai());
+        holder.tvTenDU.setText(doUong.getName());
+        String moTa = doUong.getMoTa();
+        if (moTa.length() > 100) {
+            moTa = moTa.substring(0, 100) + "...";
+        }
+        holder.tvMoTa.setText(moTa);
 
-        holder.itemView.setOnClickListener(view ->{
+        holder.itemView.setOnClickListener(view -> {
             if(listener != null)
-                listener.onItemClick(loaiDoUong);
+                listener.onItemClick(doUong);
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return loaiDoUongs.size();
+        return doUongs.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView textView;
+        TextView tvTenDU, tvMoTa;
 
         public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imgDU);
-            textView = itemView.findViewById(R.id.tvTenDU);
-
-
+            imageView = itemView.findViewById(R.id.imgDoUong);
+            tvTenDU = itemView.findViewById(R.id.tvTenDU);
+            tvMoTa = itemView.findViewById(R.id.tvMoTaDoUong);
         }
     }
+
 }

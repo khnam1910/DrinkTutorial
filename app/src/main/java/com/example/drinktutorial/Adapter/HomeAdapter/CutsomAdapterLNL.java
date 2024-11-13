@@ -1,4 +1,4 @@
-package com.example.drinktutorial.Adapter;
+package com.example.drinktutorial.Adapter.HomeAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

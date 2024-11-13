@@ -1,6 +1,5 @@
-package com.example.drinktutorial.View;
+package com.example.drinktutorial.View.Home;
 
-import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
@@ -8,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.drinktutorial.Adapter.CustomAdapterCarousel;
-import com.example.drinktutorial.Adapter.CustomAdapterHotDrink;
-import com.example.drinktutorial.Adapter.CustomAdapterLDU;
-import com.example.drinktutorial.Adapter.CutsomAdapterLNL;
+import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterCarousel;
+import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterHotDrink;
+import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterLDU;
+import com.example.drinktutorial.Adapter.HomeAdapter.CutsomAdapterLNL;
 import com.example.drinktutorial.Controller.DoUongController;
 import com.example.drinktutorial.Controller.LoaiDoUongController;
 import com.example.drinktutorial.Controller.LoaiNguyenLieuController;
@@ -36,8 +33,8 @@ import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.Model.LoaiNguyenLieu;
 import com.example.drinktutorial.R;
+import com.example.drinktutorial.View.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -52,7 +49,6 @@ public class HomeFragment extends Fragment {
     public Handler handler= new Handler(Looper.getMainLooper());
     public Runnable runnable;
     TextView tvTitleNew;
-
     public int currentIndex=0;
     CustomAdapterHotDrink adapterHotDrink;
     CustomAdapterCarousel adapterCarousel;
@@ -72,14 +68,10 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container,false);
         addControls(view);
-        loadLDU();
-        loadDoUong();
-        loadDUTheoNgay();
-        loadLNL();
-        initData();
-        addEvent();
-        autoScroll();
+        setUpRecyclerViews();
+        initializeData();
         customView();
+        autoScroll();
 
         return view;
     }
@@ -94,24 +86,28 @@ public class HomeFragment extends Fragment {
         rycLDU = view.findViewById(R.id.rycLDU);
         grdLNL = view.findViewById(R.id.grdLNL);
     }
-    public void addEvent()
-    {
-        rycCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if(newState == RecyclerView.SCROLL_STATE_IDLE)
-                {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    if(layoutManager!=null)
-                    {
-                        int currentVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-                        currentIndex = currentVisiblePosition + 1;
-                    }
-                }
-            }
-        });
+    private void initializeData() {
+        loadLDU();
+        loadDoUong();
+        loadDUTheoNgay();
+        loadLNL();
+        initData();
     }
+
+    private void setUpRecyclerViews() {
+        rycCarousel.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rycDoUong.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rycDoUong1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rycLDU.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    private void addEventListeners() {
+        addCarouselScrollListener();
+        addItemClickListenerForDoUong();
+        addItemClickListenerForLDU();
+    }
+
+
     public void customView()
     {
         SnapHelper snapHelper = new PagerSnapHelper();
@@ -119,28 +115,23 @@ public class HomeFragment extends Fragment {
         int space = getResources().getDimensionPixelSize(R.dimen.recycler_view_item_space);
         rycCarousel.addItemDecoration(new SpacesItemDecoration(space));
     }
-    public void autoScroll()
-    {
+    private void autoScroll() {
         runnable = new Runnable() {
             @Override
             public void run() {
-                if (adapterCarousel != null)
-                {
+                if (adapterCarousel != null) {
                     if (currentIndex == adapterCarousel.getItemCount()) {
                         currentIndex = 0;
                     }
-
                 }
-                Log.d("autoScroll", "run: "+ currentIndex);
                 rycCarousel.smoothScrollToPosition(currentIndex++);
                 handler.postDelayed(this, 3000);
             }
         };
-        handler.postDelayed(runnable,3000);
+        handler.postDelayed(runnable, 3000);
     }
     public void initData()
     {
-        rycCarousel.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         ArrayList<CustomItem> itemList = new ArrayList<>();
         itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
         itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
@@ -149,6 +140,80 @@ public class HomeFragment extends Fragment {
         adapterCarousel = new CustomAdapterCarousel(itemList);
         rycCarousel.setAdapter(adapterCarousel);
     }
+
+    private void addCarouselScrollListener() {
+        rycCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (layoutManager != null) {
+                        int currentVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+                        currentIndex = currentVisiblePosition + 1;
+                    }
+                }
+            }
+        });
+    }
+    private void addItemClickListenerForLDU() {
+        adapterLDU.setOnItemClickListener(new CustomAdapterLDU.OnItemClickListener() {
+            @Override
+            public void onItemClick(LoaiDoUong loaiDoUong) {
+                Bundle bundle = new Bundle();
+                bundle.putString("LoaiDoUongID", loaiDoUong.getIdLDU());
+                bundle.putString("tenLDU", loaiDoUong.getTenLoai());
+
+                DoUongListFragment doUongListFragment = new DoUongListFragment();
+                doUongListFragment.setArguments(bundle);
+
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(doUongListFragment);
+
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        });
+    }
+    private void addItemClickListenerForDoUong() {
+        if (adapterHotDrink != null) {
+            adapterHotDrink.setOnItemClickListener(new CustomAdapterHotDrink.OnItemClickListener() {
+                @Override
+                public void onItemClick(DoUong doUong) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("idDoUong", doUong.getKeyID());
+                    bundle.putString("tenDoUong", doUong.getName());
+
+                    DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
+                    doUongDetailFragment.setArguments(bundle);
+
+                    if (getActivity() instanceof MainActivity) {
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        mainActivity.loadFragment(doUongDetailFragment);
+                    }
+
+                    AppCompatActivity activity = (AppCompatActivity) getActivity();
+                    if (activity != null) {
+                        Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                        activity.setSupportActionBar(toolbar);
+                        activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    }
+                }
+            });
+        } else {
+            Log.e("HomeFragment", "adapterHotDrink is null");
+        }
+    }
+
     public void loadDoUong()
     {
         DoUongController doUongController = new DoUongController();
@@ -157,11 +222,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void getALlDoUong(ArrayList<DoUong> doUongs) {
                 Collections.shuffle(doUongs);
-                rycDoUong.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 adapterHotDrink = new CustomAdapterHotDrink(doUongs);
                 rycDoUong.setAdapter(adapterHotDrink);
-
-
+                addItemClickListenerForDoUong();
             }
         });
     }
@@ -171,93 +234,58 @@ public class HomeFragment extends Fragment {
         doUongController.getListDU(new DoUongController.DataStatus() {
             @Override
             public void getALlDoUong(ArrayList<DoUong> doUongs) {
-
-                Calendar calendar = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                Date currentDate = calendar.getTime();
-
-                long[] daysDifferences = new long[doUongs.size()];
-
-                // Tính toán sự khác biệt ngày
-                for (int i = 0; i < doUongs.size(); i++) {
-                    DoUong doUong = doUongs.get(i);
-                    try {
-                        Date drinkDate = sdf.parse(doUong.getNgay());
-                        long diffInMillis = currentDate.getTime() - drinkDate.getTime();
-                        long diffInDays = diffInMillis / (24 * 60 * 60 * 1000);
-                        daysDifferences[i] = diffInDays;
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-                Long[] sortedDaysDifferences = Arrays.stream(daysDifferences).boxed().toArray(Long[]::new);
-                Arrays.sort(sortedDaysDifferences);
-
-
-                ArrayList<DoUong> sortedDoUongs = new ArrayList<>();
-
-                for (long dayDifference : sortedDaysDifferences) {
-                    for (int j = 0; j < daysDifferences.length; j++) {
-                        if (daysDifferences[j] == dayDifference) {
-                            sortedDoUongs.add(doUongs.get(j));
-                        }
-                    }
-                }
-
-
-                rycDoUong1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                ArrayList<DoUong> sortedDoUongs = sortDoUongsByDate(doUongs);
                 adapterHotDrink = new CustomAdapterHotDrink(sortedDoUongs);
                 rycDoUong1.setAdapter(adapterHotDrink);
+                addItemClickListenerForDoUong();
             }
         });
     }
+    @NonNull
+    private ArrayList<DoUong> sortDoUongsByDate(ArrayList<DoUong> doUongs) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        Date currentDate = calendar.getTime();
 
+        long[] daysDifferences = new long[doUongs.size()];
 
+        // Tính toán sự khác biệt ngày
+        for (int i = 0; i < doUongs.size(); i++) {
+            DoUong doUong = doUongs.get(i);
+            try {
+                Date drinkDate = sdf.parse(doUong.getNgay());
+                long diffInMillis = currentDate.getTime() - drinkDate.getTime();
+                long diffInDays = diffInMillis / (24 * 60 * 60 * 1000);
+                daysDifferences[i] = diffInDays;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Long[] sortedDaysDifferences = Arrays.stream(daysDifferences).boxed().toArray(Long[]::new);
+        Arrays.sort(sortedDaysDifferences);
+
+        ArrayList<DoUong> sortedDoUongs = new ArrayList<>();
+
+        for (long dayDifference : sortedDaysDifferences) {
+            for (int j = 0; j < daysDifferences.length; j++) {
+                if (daysDifferences[j] == dayDifference) {
+                    sortedDoUongs.add(doUongs.get(j));
+                }
+            }
+        }
+
+        return sortedDoUongs;
+    }
     public void loadLDU() {
         LoaiDoUongController loaiDoUongController = new LoaiDoUongController();
         loaiDoUongController.getListLDU(new LoaiDoUongController.DataStatus() {
             @Override
             public void DataIsLoaded(ArrayList<LoaiDoUong> loaiDoUongs) {
                 Collections.shuffle(loaiDoUongs);
-                rycLDU.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
                 adapterLDU = new CustomAdapterLDU(loaiDoUongs);
                 rycLDU.setAdapter(adapterLDU);
-
-                adapterLDU.setOnItemClickListener(new CustomAdapterLDU.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(LoaiDoUong loaiDoUong) {
-                        Log.d("SelectedItem", "Item clicked: " + loaiDoUong.getIdLDU());
-
-                        // Tạo bundle và gắn dữ liệu cần thiết vào fragment
-                        Bundle bundle = new Bundle();
-                        bundle.putString("LoaiDoUongID", loaiDoUong.getIdLDU());
-
-                        // Tạo fragment mới và truyền bundle vào
-                        DoUongListFragment productDetailFragment = new DoUongListFragment();
-                        productDetailFragment.setArguments(bundle);
-
-                        // Gọi phương thức loadFragment() trong MainActivity để thay thế fragment
-                        if (getActivity() instanceof MainActivity) {
-                            MainActivity mainActivity = (MainActivity) getActivity();
-                            mainActivity.loadFragment(productDetailFragment);
-                        }
-
-
-                        AppCompatActivity activity = (AppCompatActivity) getActivity();
-                        if (activity != null) {
-                            Toolbar toolbar = activity.findViewById(R.id.toolbar);
-                            TextView tvTitle = activity.findViewById(R.id.tvTitle);
-                            activity.setSupportActionBar(toolbar);
-                            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-                            tvTitle.setText(loaiDoUong.getTenLoai());
-                            if (activity.getSupportActionBar() != null) {
-                                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                            }
-                        }
-                    }
-                });
+                addItemClickListenerForLDU();
             }
         });
     }
