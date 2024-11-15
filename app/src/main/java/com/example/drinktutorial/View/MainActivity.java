@@ -20,7 +20,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.drinktutorial.R;
+<<<<<<< Updated upstream
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+=======
+import com.example.drinktutorial.View.Home.HomeFragment;
+import com.example.drinktutorial.View.News.NewsFragment;
+import com.example.drinktutorial.View.Profile.UserFragment;
+>>>>>>> Stashed changes
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -34,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         addControls();

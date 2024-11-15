@@ -29,6 +29,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    packagingOptions {
+        exclude("META-INF/NOTICE.md")
+        exclude ("META-INF/LICENSE.md")
+    }
 }
 
 dependencies {
@@ -47,6 +52,9 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.sun.mail:android-mail:1.6.6")
+    implementation("com.sun.mail:android-activation:1.6.6")
+    implementation("org.mindrot:jbcrypt:0.4")
 }
 
 

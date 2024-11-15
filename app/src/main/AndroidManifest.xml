@@ -7,31 +7,17 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:name=".View.MyApplication"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DrinkTutorial"
-        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
         <activity
-            android:name=".View.DoUongList"
-            android:exported="false" />
-        <activity
-            android:name=".View.Profile.Profile_Save"
-            android:exported="false" />
-        <activity
-            android:name=".View.Profile.Profile_Like"
-            android:exported="false" />
-        <activity
-            android:name=".View.Profile.Profile_Security"
-            android:exported="false" />
-        <activity
-            android:name=".View.Profile.Profile_TakeCareCustomer"
-            android:exported="false" />
-        <activity
-            android:name=".View.Profile.Profile_Setting"
+            android:name=".View.VerifyAccount"
             android:exported="false" />
         <activity
             android:name=".View.Register"

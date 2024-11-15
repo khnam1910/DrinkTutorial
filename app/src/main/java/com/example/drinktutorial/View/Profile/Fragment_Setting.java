@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.Login;
-import com.example.drinktutorial.View.UserFragment;
 
 
 public class Fragment_Setting extends Fragment {
