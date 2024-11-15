@@ -1,4 +1,4 @@
-package com.example.drinktutorial.View;
+package com.example.drinktutorial.View.Home;
 
 import android.graphics.Rect;
 import android.view.View;

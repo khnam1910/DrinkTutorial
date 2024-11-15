@@ -1,8 +1,9 @@
-package com.example.drinktutorial.View;
+package com.example.drinktutorial.View.Home;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.example.drinktutorial.Adapter.CustomAdapterDoUongs;
+import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterDoUongs;
 import com.example.drinktutorial.Controller.DoUongController;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
+import com.example.drinktutorial.View.MainActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class DoUongListFragment extends Fragment {
 
     CustomAdapterDoUongs customAdapterDoUongs;
     RecyclerView rycDoUongs;
-    String idLDU;
+    String idLDU, tenLDU;
 
     public DoUongListFragment() {
 
@@ -38,6 +41,11 @@ public class DoUongListFragment extends Fragment {
         if(getArguments() != null)
         {
             idLDU = getArguments().getString("LoaiDoUongID");
+            tenLDU = getArguments().getString("tenLDU");
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).updateTitle(tenLDU);
+            }
+
         }
         addControls(view);
         loadDUTheoLoai(idLDU);
@@ -66,8 +74,42 @@ public class DoUongListFragment extends Fragment {
                 rycDoUongs.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
                 customAdapterDoUongs = new CustomAdapterDoUongs(filteredDoUongs);
                 rycDoUongs.setAdapter(customAdapterDoUongs);
+
+
+                customAdapterDoUongs.setOnItemClickListener(new CustomAdapterDoUongs.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(DoUong doUong) {
+                        Log.d("Test", "onItemClick: "+doUong.getKeyID());
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idDoUong",doUong.getKeyID());
+                        bundle.putString("tenDoUong",doUong.getName());
+                        DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
+                        doUongDetailFragment.setArguments(bundle);
+
+                        if(getActivity() instanceof MainActivity)
+                        {
+                            MainActivity mainActivity = (MainActivity) getActivity();
+                            mainActivity.loadFragment(doUongDetailFragment);
+                        }
+                        AppCompatActivity activity = (AppCompatActivity) getActivity();
+                        if (activity != null) {
+                            Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                            TextView tvTitle = activity.findViewById(R.id.tvTitle);
+                            activity.setSupportActionBar(toolbar);
+                            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                            tvTitle.setText(doUong.getName());
+                            if (activity.getSupportActionBar() != null) {
+                                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                            }
+                        }
+                    }
+                });
             }
+
         });
+
+
     }
 
     @Override

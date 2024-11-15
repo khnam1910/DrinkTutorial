@@ -1,4 +1,4 @@
-package com.example.drinktutorial.Adapter;
+package com.example.drinktutorial.Adapter.HomeAdapter;
 
 import com.bumptech.glide.Glide;
 import android.view.LayoutInflater;

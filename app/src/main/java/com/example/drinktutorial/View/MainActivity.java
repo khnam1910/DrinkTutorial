@@ -2,7 +2,6 @@ package com.example.drinktutorial.View;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -10,9 +9,7 @@ import android.widget.Toast;
 
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -20,13 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.drinktutorial.R;
-<<<<<<< Updated upstream
-import com.google.android.material.bottomnavigation.BottomNavigationItemView;
-=======
 import com.example.drinktutorial.View.Home.HomeFragment;
-import com.example.drinktutorial.View.News.NewsFragment;
-import com.example.drinktutorial.View.Profile.UserFragment;
->>>>>>> Stashed changes
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,25 +28,28 @@ public class MainActivity extends AppCompatActivity {
     TextView tvTitle;
     Toolbar toolbar;
 
+    String titleDefault="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         addControls();
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        if (savedInstanceState == null)
-        {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentLoad, new HomeFragment())
-                    .commit();
+
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
+            }
+        }
+
+        if (tvTitle != null) {
             tvTitle.setText("Trang chủ");
         }
 
-
         addEvents();
-
     }
 
     public void addControls()
@@ -130,28 +124,38 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager.addOnBackStackChangedListener(() -> {
             Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragmentLoad);
 
-            if (currentFragment instanceof HomeFragment) {
+
+            if (currentFragment instanceof HomeFragment && tvTitle != null) {
                 tvTitle.setText("Trang chủ");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
             }
-            else if (currentFragment instanceof SearchFragment) {
+            else if (currentFragment instanceof SearchFragment && tvTitle != null) {
                 tvTitle.setText("Tìm kiếm");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
             }
-            else if (currentFragment instanceof NewsFragment) {
+            else if (currentFragment instanceof NewsFragment && tvTitle != null) {
                 tvTitle.setText("Tin tức");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
             }
-            else if (currentFragment instanceof UserFragment) {
+            else if (currentFragment instanceof UserFragment && tvTitle != null) {
                 tvTitle.setText("Người dùng");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
             }
             else {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                if (tvTitle != null && getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
             }
         });
     }
-
 
 
     @SuppressLint("MissingSuperCall")
@@ -171,6 +175,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ft.commit();
+    }
+    public void updateTitle(String title) {
+        tvTitle.setText(title);
+        titleDefault = title;  // Lưu lại tiêu đề hiện tại
+    }
+    public void restoreTitle() {
+        tvTitle.setText(titleDefault);
     }
 }
 

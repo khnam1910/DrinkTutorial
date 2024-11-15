@@ -1,10 +1,8 @@
 package com.example.drinktutorial.Controller;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.drinktutorial.Model.DoUong;
-import com.example.drinktutorial.View.HomeFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

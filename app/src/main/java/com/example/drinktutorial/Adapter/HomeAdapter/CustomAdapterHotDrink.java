@@ -1,33 +1,42 @@
-package com.example.drinktutorial.Adapter;
+package com.example.drinktutorial.Adapter.HomeAdapter;
 
+import com.bumptech.glide.Glide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.drinktutorial.Model.DoUong;
+import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.R;
 
 import java.util.ArrayList;
 
-public class CustomAdapterDoUongs extends RecyclerView.Adapter<CustomAdapterDoUongs.ViewHolder> {
+public class CustomAdapterHotDrink extends RecyclerView.Adapter<CustomAdapterHotDrink.ViewHolder> {
     ArrayList<DoUong> doUongs;
 
-    public CustomAdapterDoUongs(ArrayList<DoUong> doUongs) {
+    OnItemClickListener listener;
+
+    public CustomAdapterHotDrink(ArrayList<DoUong> doUongs) {
         this.doUongs = doUongs;
     }
 
-
-
+    public interface  OnItemClickListener{
+        void onItemClick(DoUong DoUong);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.listener = listener;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_douongs, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout_drink, parent, false);
         return new ViewHolder(view);
     }
 
@@ -37,13 +46,12 @@ public class CustomAdapterDoUongs extends RecyclerView.Adapter<CustomAdapterDoUo
         Glide.with(holder.itemView.getContext())
                 .load(doUong.getHinhAnh())
                 .into(holder.imageView);
-        holder.tvTenDU.setText(doUong.getName());
-        String moTa = doUong.getMoTa();
-        if (moTa.length() > 100) {
-            moTa = moTa.substring(0, 100) + "...";
-        }
-        holder.tvMoTa.setText(moTa);
+        holder.textView.setText(doUong.getName());
 
+        holder.itemView.setOnClickListener(view ->{
+            if(listener != null)
+                listener.onItemClick(doUong);
+        });
     }
 
     @Override
@@ -53,14 +61,12 @@ public class CustomAdapterDoUongs extends RecyclerView.Adapter<CustomAdapterDoUo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView tvTenDU, tvMoTa;
+        TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imgDoUong);
-            tvTenDU = itemView.findViewById(R.id.tvTenDU);
-            tvMoTa = itemView.findViewById(R.id.tvMoTaDoUong);
+            imageView = itemView.findViewById(R.id.imgDU);
+            textView = itemView.findViewById(R.id.tvTenDU);
         }
     }
-
 }
