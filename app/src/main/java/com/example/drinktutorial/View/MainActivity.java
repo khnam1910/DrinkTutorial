@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.Home.HomeFragment;
+import com.example.drinktutorial.View.News.NewsFragment;
+import com.example.drinktutorial.View.Profile.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 
