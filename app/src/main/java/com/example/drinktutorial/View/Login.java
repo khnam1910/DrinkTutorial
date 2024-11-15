@@ -46,7 +46,7 @@ import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
 
-    EditText txt_Username, txt_Password;
+    EditText txt_email, txt_Password;
     TextView signupRedirectText;
     Button btn_Login;
     ImageView loginGoogle;
@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void addControls() {
-        txt_Username = findViewById(R.id.txt_Username);
+        txt_email = findViewById(R.id.txt_email);
         txt_Password = findViewById(R.id.txt_Password);
         btn_Login = findViewById(R.id.btn_Login);
         signupRedirectText = findViewById(R.id.signupRedirectText);
@@ -153,12 +153,12 @@ public class Login extends AppCompatActivity {
     }
 
     public Boolean validateUsername() {
-        String val = txt_Username.getText().toString();
+        String val = txt_email.getText().toString();
         if (val.isEmpty()) {
-            txt_Username.setError("Tài khoản không được bỏ trống");
+            txt_email.setError("Tài khoản không được bỏ trống");
             return false;
         } else {
-            txt_Username.setError(null);
+            txt_email.setError(null);
             return true;
         }
     }
@@ -175,7 +175,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void checkUser() {
-        String userUsername = txt_Username.getText().toString().trim();
+        String userEmail = txt_email.getText().toString().trim();
         String userPassword = txt_Password.getText().toString().trim();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NguoiDung");
@@ -184,11 +184,11 @@ public class Login extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean userFound = false;
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    String usernameFromDB = userSnapshot.child("taikhoan").getValue(String.class);
-                    Log.d("Login", "usernameFromDB: " + usernameFromDB);
-                    if (usernameFromDB != null && usernameFromDB.equals(userUsername)) {
+                    String emailFromDB = userSnapshot.child("email").getValue(String.class);
+                    Log.d("Login", "emailFromDB: " + emailFromDB);
+                    if (emailFromDB != null && emailFromDB.equals(userEmail)) {
                         userFound = true;
-                        String passwordFromDB = userSnapshot.child("matkhau").getValue(String.class);
+                        String passwordFromDB = userSnapshot.child("matKhau").getValue(String.class);
                         if (passwordFromDB != null && passwordFromDB.equals(userPassword)) {
                             //Lưu thông tin đăng nhập
                             SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
@@ -196,18 +196,21 @@ public class Login extends AppCompatActivity {
                             editor.putBoolean("isLoggedIn", true);
                             editor.apply();
 
-
-                            String nameFromDB = userSnapshot.child("hoten").getValue(String.class);
-                            String emailFromDB = userSnapshot.child("email").getValue(String.class);
+                            String nameFromDB = userSnapshot.child("hoTen").getValue(String.class);
+                            String addressFromDB = userSnapshot.child("address").getValue(String.class);
+                            String phoneFromDB = userSnapshot.child("phone").getValue(String.class);
+                            String DOBFromDB = userSnapshot.child("DOB").getValue(String.class);
 
                             // Show success message before starting the activity
                             Toast.makeText(Login.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(Login.this, MainActivity.class);
-                            intent.putExtra("hoten", nameFromDB);
+                            intent.putExtra("hoTen", nameFromDB);
                             intent.putExtra("email", emailFromDB);
-                            intent.putExtra("taikhoan", usernameFromDB);
-                            intent.putExtra("matkhau", passwordFromDB);
+                            intent.putExtra("address", addressFromDB);
+                            intent.putExtra("phone", phoneFromDB);
+                            intent.putExtra("DOB", DOBFromDB);
+                            intent.putExtra("matKhau", passwordFromDB);
 
                             startActivity(intent);
                             finish();  // Close Login activity
@@ -220,8 +223,8 @@ public class Login extends AppCompatActivity {
                     }
                 }
                 if (!userFound) {
-                    txt_Username.setError("Tài khoản không tồn tại");
-                    txt_Username.requestFocus();
+                    txt_email.setError("Tài khoản không tồn tại");
+                    txt_email.requestFocus();
                 }
             }
 

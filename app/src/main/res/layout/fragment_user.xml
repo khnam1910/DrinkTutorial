@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="18dp"
-    tools:context=".View.UserFragment">
+    tools:context=".View.Profile.UserFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

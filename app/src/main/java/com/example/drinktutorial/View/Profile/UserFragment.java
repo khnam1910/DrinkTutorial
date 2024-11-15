@@ -1,4 +1,4 @@
-package com.example.drinktutorial.View;
+package com.example.drinktutorial.View.Profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import com.example.drinktutorial.R;
-import com.example.drinktutorial.View.Profile.Fragment_Like;
-import com.example.drinktutorial.View.Profile.Fragment_Save;
-import com.example.drinktutorial.View.Profile.Fragment_Security;
-import com.example.drinktutorial.View.Profile.Fragment_Setting;
-import com.example.drinktutorial.View.Profile.Fragment_TakeCareCustomer;
+import com.example.drinktutorial.View.Login;
 
 public class UserFragment extends Fragment {
 
@@ -113,15 +109,17 @@ public class UserFragment extends Fragment {
     }
 
     private void logout() {
+        // Xóa thông tin đăng nhập
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("isLoggedIn", false);
         editor.apply();
 
-        // Chuyển hướng đến màn hình đăng nhập
+        // Chuyển hướng đến màn hình đăng nhập và đóng các Activity trước đó
         Intent intent = new Intent(getActivity(), Login.class);
-        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Đảm bảo không quay lại các màn hình trước
         startActivity(intent);
-        getActivity().finish();
+        getActivity().finish(); // Đảm bảo đóng Fragment hiện tại (UserFragment)
     }
+
 }

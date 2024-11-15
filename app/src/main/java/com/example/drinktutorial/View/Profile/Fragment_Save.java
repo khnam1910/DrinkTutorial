@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.drinktutorial.R;
-import com.example.drinktutorial.View.UserFragment;
 
 public class Fragment_Save extends Fragment {
 

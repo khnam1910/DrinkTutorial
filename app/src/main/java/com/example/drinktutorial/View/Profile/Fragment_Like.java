@@ -1,8 +1,5 @@
 package com.example.drinktutorial.View.Profile;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.drinktutorial.R;
-import com.example.drinktutorial.View.Login;
-import com.example.drinktutorial.View.UserFragment;
 
 public class Fragment_Like extends Fragment {
     private ImageView backSetting;
