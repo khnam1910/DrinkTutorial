@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.News.Fragment_Detail_News">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/imgNews"
+                android:layout_width="match_parent"
+                android:layout_height="460dp"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:padding="4dp"
+                    android:textColor="@color/black"
+                    android:text="Sex On The Beach" />
+
+                <ImageView
+                    android:id="@+id/imgYeuThich"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/heart_3_fill"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgChiaSe"
+                    android:layout_width="33dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/share" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="3dp"
+                android:padding="4dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/black"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/txtContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:inputType="textMultiLine"
+                android:justificationMode="inter_word"
+                android:minLines="5"
+                android:padding="4dp"
+                android:text="Sex On The Beach in the world of coctails refer to a specific category of drinks that have emerged in recent years and have rapidly gained popularity. recognition and a dedicated following within the cocktail industry. These coktails represent a modern twist on traditional recipes or entirely new creations that have achieved iconec sttus in a realtively short period. They reflect the evolving tastes, trends, and innovations in mixology.
+Campari, the right red, bitter aperitif that originated in Milan, serves as the foundation of the Faribaldi coktails. Its deeep, herbal bitterness contrasts beautifully with the sweet, fresh orange juice, creating a balanced drink with both refreshing and complex flavor. The use of freshly squeezed orange juice is essential to the Garibaldi, as it not only enhances the cocktail's sweetness but also provides a frothy texture that gives the drinkd a light and airy quality.
+                The simpicity of the Garibildy belies its versatility. It's a drink that can be injoyed at any time, whether as a pre-dinner aperitivo, a brunch accompaniment.
+                "
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

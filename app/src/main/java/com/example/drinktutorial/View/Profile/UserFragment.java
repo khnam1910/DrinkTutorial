@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.Login;
 
@@ -19,6 +21,7 @@ public class UserFragment extends Fragment {
 
     Button btnLogout;
     RelativeLayout information, luu_baiviet, thich_baiviet, setting, baomat, cskh;
+    TextView username;
 
     public UserFragment() {
     }
@@ -36,6 +39,8 @@ public class UserFragment extends Fragment {
         addControls(view);
         addEvents();
 
+        displayUserName();
+
         return view;
     }
 
@@ -47,6 +52,7 @@ public class UserFragment extends Fragment {
         setting = view.findViewById(R.id.setting);
         baomat = view.findViewById(R.id.baomat);
         cskh = view.findViewById(R.id.cskh);
+        username = view.findViewById(R.id.username);
     }
 
     public void addEvents() {
@@ -117,9 +123,18 @@ public class UserFragment extends Fragment {
 
         // Chuyển hướng đến màn hình đăng nhập và đóng các Activity trước đó
         Intent intent = new Intent(getActivity(), Login.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK); // Đảm bảo không quay lại các màn hình trước
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        getActivity().finish(); // Đảm bảo đóng Fragment hiện tại (UserFragment)
+        getActivity().finish();
     }
 
+    private void displayUserName() {
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        String userName = sharedPreferences.getString("hoTen", "User");
+
+        // Cập nhật tên người dùng lên TextView
+        if (username != null) {
+            username.setText(userName);
+        }
+    }
 }

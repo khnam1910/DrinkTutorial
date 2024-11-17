@@ -1,4 +1,4 @@
-package com.example.drinktutorial.View;
+package com.example.drinktutorial.View.Search;
 
 import android.os.Bundle;
 

@@ -194,6 +194,8 @@ public class Login extends AppCompatActivity {
                             SharedPreferences sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putBoolean("isLoggedIn", true);
+                            editor.putString("hoTen", userSnapshot.child("hoTen").getValue(String.class));
+                            editor.putString("email", userEmail);
                             editor.apply();
 
                             String nameFromDB = userSnapshot.child("hoTen").getValue(String.class);
@@ -213,7 +215,7 @@ public class Login extends AppCompatActivity {
                             intent.putExtra("matKhau", passwordFromDB);
 
                             startActivity(intent);
-                            finish();  // Close Login activity
+                            finish();
                             return;
                         } else {
                             txt_Password.setError("Mật khẩu không đúng");

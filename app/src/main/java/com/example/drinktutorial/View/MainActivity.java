@@ -20,8 +20,8 @@ import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.Home.HomeFragment;
 import com.example.drinktutorial.View.News.NewsFragment;
 import com.example.drinktutorial.View.Profile.UserFragment;
+import com.example.drinktutorial.View.Search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
