@@ -83,7 +83,6 @@ public class DoUongListFragment extends Fragment {
 
                         Bundle bundle = new Bundle();
                         bundle.putString("idDoUong",doUong.getKeyID());
-                        bundle.putString("tenDoUong",doUong.getName());
                         DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
                         doUongDetailFragment.setArguments(bundle);
 
@@ -95,10 +94,8 @@ public class DoUongListFragment extends Fragment {
                         AppCompatActivity activity = (AppCompatActivity) getActivity();
                         if (activity != null) {
                             Toolbar toolbar = activity.findViewById(R.id.toolbar);
-                            TextView tvTitle = activity.findViewById(R.id.tvTitle);
                             activity.setSupportActionBar(toolbar);
                             activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-                            tvTitle.setText(doUong.getName());
                             if (activity.getSupportActionBar() != null) {
                                 activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                             }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class DoUong {
     private String keyID;
-    private Map<String, Map<String, Integer>> NguyenLieu;
+    private Map<String, Map<String, Double>> NguyenLieu;
     private String Loai;
     private String HinhAnh;
     private String Name;
@@ -15,7 +15,7 @@ public class DoUong {
     public DoUong() {
     }
 
-    public DoUong(String keyID, Map<String, Map<String, Integer>> nguyenLieu, String loai, String hinhAnh, String name, String buocPhaChe, String moTa, String ngay) {
+    public DoUong(String keyID, Map<String, Map<String, Double>> nguyenLieu, String loai, String hinhAnh, String name, String buocPhaChe, String moTa, String ngay) {
         this.keyID = keyID;
         NguyenLieu = nguyenLieu;
         Loai = loai;
@@ -34,11 +34,11 @@ public class DoUong {
         this.keyID = keyID;
     }
 
-    public Map<String, Map<String, Integer>> getNguyenLieu() {
+    public Map<String, Map<String, Double>> getNguyenLieu() {
         return NguyenLieu;
     }
 
-    public void setNguyenLieu(Map<String, Map<String, Integer>> NguyenLieu) {
+    public void setNguyenLieu(Map<String, Map<String, Double>> NguyenLieu) {
         this.NguyenLieu = NguyenLieu;
     }
 

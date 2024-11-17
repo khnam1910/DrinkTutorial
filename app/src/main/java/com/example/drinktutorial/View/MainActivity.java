@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if (tvTitle != null) {
             tvTitle.setText("Trang chủ");
         }
-
+        loadFragment(new HomeFragment());
         addEvents();
     }
 

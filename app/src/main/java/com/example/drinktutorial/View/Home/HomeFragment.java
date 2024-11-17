@@ -190,7 +190,6 @@ public class HomeFragment extends Fragment {
                 public void onItemClick(DoUong doUong) {
                     Bundle bundle = new Bundle();
                     bundle.putString("idDoUong", doUong.getKeyID());
-                    bundle.putString("tenDoUong", doUong.getName());
 
                     DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
                     doUongDetailFragment.setArguments(bundle);
