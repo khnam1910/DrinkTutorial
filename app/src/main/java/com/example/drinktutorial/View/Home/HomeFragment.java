@@ -101,11 +101,6 @@ public class HomeFragment extends Fragment {
         rycLDU.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
     }
 
-    private void addEventListeners() {
-        addCarouselScrollListener();
-        addItemClickListenerForDoUong();
-        addItemClickListenerForLDU();
-    }
 
 
     public void customView()

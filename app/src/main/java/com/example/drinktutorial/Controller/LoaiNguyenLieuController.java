@@ -37,8 +37,6 @@ public class LoaiNguyenLieuController {
                         loaiNguyenLieus.add(lnl);
                     }
                 }
-
-
                 dataStatus.DataIsLoaded(loaiNguyenLieus);
             }
 

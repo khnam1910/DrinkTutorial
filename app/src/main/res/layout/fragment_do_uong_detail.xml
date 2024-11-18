@@ -64,6 +64,7 @@
                 android:text="Thông tin mô tả" />
 
             <TextView
+                android:paddingTop="5dp"
                 android:id="@+id/tvMoTa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -118,6 +119,7 @@ Campari, the right red, bitter aperitif that originated in Milan, serves as the 
                 android:textSize="20sp" />
 
             <TextView
+                android:paddingTop="5dp"
                 android:id="@+id/tvBuocPhaChe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,8 +135,44 @@ Campari, the right red, bitter aperitif that originated in Milan, serves as the 
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginVertical="10dp"/>
 
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hình ảnh nguyên liệu"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rycNguyenLieu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="10dp"/>
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đồ uống cùng loại"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rycLDUong"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginVertical="10dp"/>
         </LinearLayout>
     </ScrollView>
 
