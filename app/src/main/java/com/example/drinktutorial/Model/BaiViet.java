@@ -1,10 +1,7 @@
 package com.example.drinktutorial.Model;
 
 public class BaiViet {
-<<<<<<< Updated upstream
-=======
     private String keyID;
->>>>>>> Stashed changes
     private String title;
     private String imgUrl;
     private String content;
@@ -20,8 +17,6 @@ public class BaiViet {
         this.date = date;
     }
 
-<<<<<<< Updated upstream
-=======
     public BaiViet(String keyId, String title, String imgUrl, String content, String date) {
         this.keyID = keyId;
         this.title = title;
@@ -38,7 +33,6 @@ public class BaiViet {
         this.keyID = keyID;
     }
 
->>>>>>> Stashed changes
     public String getTitle() {
         return title;
     }
