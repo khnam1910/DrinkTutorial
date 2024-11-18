@@ -37,7 +37,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:text="Sex On The Beach" />
+                    android:text="Cooktail Fire" />
 
                 <ImageView
                     android:id="@+id/imgYeuthich"
