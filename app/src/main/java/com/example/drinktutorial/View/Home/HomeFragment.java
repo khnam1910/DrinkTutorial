@@ -220,6 +220,11 @@ public class HomeFragment extends Fragment {
                 rycDoUong.setAdapter(adapterHotDrink);
                 addItemClickListenerForDoUong();
             }
+
+            @Override
+            public void getFilteredDoUong(ArrayList<DoUong> doUongs) {
+
+            }
         });
     }
 
@@ -232,6 +237,11 @@ public class HomeFragment extends Fragment {
                 adapterHotDrink = new CustomAdapterHotDrink(sortedDoUongs);
                 rycDoUong1.setAdapter(adapterHotDrink);
                 addItemClickListenerForDoUong();
+            }
+
+            @Override
+            public void getFilteredDoUong(ArrayList<DoUong> doUongs) {
+
             }
         });
     }

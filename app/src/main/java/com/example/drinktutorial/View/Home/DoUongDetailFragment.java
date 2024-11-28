@@ -101,7 +101,13 @@ public void getDoUong(String idDU) {
                 }
             }
         }
+
+        @Override
+        public void getFilteredDoUong(ArrayList<DoUong> doUongs) {
+
+        }
     });
+
 }
 
     public void setDisplayNguyenLieuDT(Map<String, Map<String, Double>> nguyenLieuMap) {
@@ -203,6 +209,11 @@ public void getDoUong(String idDU) {
                adapterHotDrink = new CustomAdapterHotDrink(filterDoUong);
                rycLDUong.setAdapter(adapterHotDrink);
                addItemClickListenerForDoUong();
+           }
+
+           @Override
+           public void getFilteredDoUong(ArrayList<DoUong> doUongs) {
+
            }
        });
     }

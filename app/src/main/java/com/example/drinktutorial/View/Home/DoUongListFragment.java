@@ -104,6 +104,11 @@ public class DoUongListFragment extends Fragment {
                 });
             }
 
+            @Override
+            public void getFilteredDoUong(ArrayList<DoUong> doUongs) {
+
+            }
+
         });
 
 

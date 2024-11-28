@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DoUongAdapter extends RecyclerView.Adapter<DoUongAdapter.DoUongViewHolder> {
@@ -23,7 +24,7 @@ public class DoUongAdapter extends RecyclerView.Adapter<DoUongAdapter.DoUongView
 
     public DoUongAdapter(Context context, List<DoUong> doUongList) {
         this.context = context;
-        this.doUongList = doUongList;
+        this.doUongList = doUongList != null ? doUongList : new ArrayList<>();
     }
 
     @NonNull
@@ -36,14 +37,20 @@ public class DoUongAdapter extends RecyclerView.Adapter<DoUongAdapter.DoUongView
     @Override
     public void onBindViewHolder(@NonNull DoUongViewHolder holder, int position) {
         DoUong doUong = doUongList.get(position);
+
+        // Thiết lập dữ liệu vào ViewHolder
         holder.tvTenDU.setText(doUong.getName());
         holder.tvMoTaDoUong.setText(doUong.getMoTa());
-        Glide.with(context).load(doUong.getHinhAnh()).into(holder.imgDoUong);
+
+        // Sử dụng Glide để tải ảnh
+        if (doUong.getHinhAnh() != null && !doUong.getHinhAnh().isEmpty()) {
+            Glide.with(context).load(doUong.getHinhAnh()).into(holder.imgDoUong);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return doUongList.size();
+        return doUongList != null ? doUongList.size() : 0;
     }
 
     public static class DoUongViewHolder extends RecyclerView.ViewHolder {
@@ -52,14 +59,21 @@ public class DoUongAdapter extends RecyclerView.Adapter<DoUongAdapter.DoUongView
 
         public DoUongViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            // Ánh xạ các view từ item layout
             imgDoUong = itemView.findViewById(R.id.imgDoUong);
             tvTenDU = itemView.findViewById(R.id.tvTenDU);
             tvMoTaDoUong = itemView.findViewById(R.id.tvMoTaDoUong);
         }
     }
 
+
     public void updateList(List<DoUong> newDoUongList) {
-        doUongList = newDoUongList;
+        if (newDoUongList != null) {
+            this.doUongList = newDoUongList;
+        } else {
+            this.doUongList = new ArrayList<>();
+        }
         notifyDataSetChanged();
     }
 }

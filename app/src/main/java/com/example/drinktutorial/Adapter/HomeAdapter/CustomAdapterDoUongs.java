@@ -75,4 +75,9 @@ public class CustomAdapterDoUongs extends RecyclerView.Adapter<CustomAdapterDoUo
         }
     }
 
+    public void updateList(ArrayList<DoUong> newList) {
+        this.doUongs = newList;
+        notifyDataSetChanged(); // Cập nhật lại danh sách cho adapter
+    }
+
 }
