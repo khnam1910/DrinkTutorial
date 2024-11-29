@@ -22,7 +22,7 @@ public class CustomAdapterDoUongs extends RecyclerView.Adapter<CustomAdapterDoUo
         this.doUongs = doUongs;
     }
 
-    public interface  OnItemClickListener{
+    public interface OnItemClickListener{
         void onItemClick(DoUong doUong);
     }
 

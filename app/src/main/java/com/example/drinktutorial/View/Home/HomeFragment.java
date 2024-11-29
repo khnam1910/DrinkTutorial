@@ -25,16 +25,19 @@ import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterCarousel;
 import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterHotDrink;
 import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterLDU;
 import com.example.drinktutorial.Adapter.HomeAdapter.CutsomAdapterLNL;
+import com.example.drinktutorial.Controller.BaiVietController;
 import com.example.drinktutorial.Controller.DoUongController;
 import com.example.drinktutorial.Controller.LoaiDoUongController;
 import com.example.drinktutorial.Controller.LoaiNguyenLieuController;
-import com.example.drinktutorial.Model.CustomItem;
+import com.example.drinktutorial.Model.BaiViet;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.Model.LoaiDoUong;
 import com.example.drinktutorial.Model.LoaiNguyenLieu;
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.MainActivity;
+import com.example.drinktutorial.View.News.BaiVietDetailFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -55,6 +58,7 @@ public class HomeFragment extends Fragment {
     CustomAdapterLDU adapterLDU;
     CutsomAdapterLNL adapterLNL;
     GridView grdLNL;
+    private LinearProgressIndicator progressBar;
     RecyclerView rycCarousel, rycDoUong,rycDoUong1, rycLDU;
     public HomeFragment() {
         // Required empty public constructor
@@ -85,13 +89,15 @@ public class HomeFragment extends Fragment {
         rycDoUong1 = view.findViewById(R.id.rycDoUong1);
         rycLDU = view.findViewById(R.id.rycLDU);
         grdLNL = view.findViewById(R.id.grdLNL);
+        progressBar = view.findViewById(R.id.progress_bar);
+
     }
     private void initializeData() {
         loadLDU();
         loadDoUong();
         loadDUTheoNgay();
         loadLNL();
-        initData();
+        loadBaiViet();
     }
 
     private void setUpRecyclerViews() {
@@ -125,28 +131,41 @@ public class HomeFragment extends Fragment {
         };
         handler.postDelayed(runnable, 3000);
     }
-    public void initData()
-    {
-        ArrayList<CustomItem> itemList = new ArrayList<>();
-        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-        adapterCarousel = new CustomAdapterCarousel(itemList);
-        rycCarousel.setAdapter(adapterCarousel);
-    }
+//    public void initData()
+//    {
+//        ArrayList<CustomItem> itemList = new ArrayList<>();
+//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
+//
+//    }
+
+
 
     private void addCarouselScrollListener() {
-        rycCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        adapterCarousel.setOnItemClickListener(new CustomAdapterCarousel.OnItemClickListener() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    if (layoutManager != null) {
-                        int currentVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
-                        currentIndex = currentVisiblePosition + 1;
-                    }
+            public void onItemClick(BaiViet baiViet) {
+                Bundle bundle = new Bundle();
+                bundle.putString("BaiVietID", baiViet.getKeyID());
+                Log.d("bbbbb", "onItemClick: "+baiViet.getKeyID());
+
+                BaiVietDetailFragment baiVietDetailFragment = new BaiVietDetailFragment();
+                baiVietDetailFragment.setArguments(bundle);
+
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(baiVietDetailFragment);
+
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
             }
         });
@@ -186,6 +205,7 @@ public class HomeFragment extends Fragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("idDoUong", doUong.getKeyID());
 
+
                     DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
                     doUongDetailFragment.setArguments(bundle);
 
@@ -207,6 +227,32 @@ public class HomeFragment extends Fragment {
             Log.e("HomeFragment", "adapterHotDrink is null");
         }
     }
+    public void loadBaiViet() {
+        BaiVietController baiVietController = new BaiVietController();
+        baiVietController.getListBV(new BaiVietController.DataStatus() {
+            @Override
+            public void getAllBaiViet(ArrayList<BaiViet> baiVietList) {
+                // Kiểm tra nếu danh sách có ít hơn 5 bài viết
+                int size = baiVietList.size();
+                if (size > 5) {
+                    // Trộn danh sách ngẫu nhiên
+                    Collections.shuffle(baiVietList);
+
+                    // Lấy 5 bài viết đầu tiên
+                    ArrayList<BaiViet> randomBaiViet = new ArrayList<>(baiVietList.subList(0, 5));
+
+                    // Cập nhật adapter với danh sách đã chọn
+                    adapterCarousel = new CustomAdapterCarousel(randomBaiViet);
+                } else {
+                    // Nếu có ít hơn 5 bài viết, dùng toàn bộ
+                    adapterCarousel = new CustomAdapterCarousel(baiVietList);
+                }
+
+                rycCarousel.setAdapter(adapterCarousel);
+                addCarouselScrollListener();
+            }
+        });
+    }
 
     public void loadDoUong()
     {
@@ -219,6 +265,7 @@ public class HomeFragment extends Fragment {
                 adapterHotDrink = new CustomAdapterHotDrink(doUongs);
                 rycDoUong.setAdapter(adapterHotDrink);
                 addItemClickListenerForDoUong();
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

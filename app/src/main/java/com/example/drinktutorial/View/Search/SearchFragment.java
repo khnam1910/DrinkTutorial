@@ -11,20 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterDoUongs;
-import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterHotDrink;
-import com.example.drinktutorial.Adapter.SearchAdapter.DoUongAdapter;
 import com.example.drinktutorial.Controller.DoUongController;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
@@ -33,7 +28,6 @@ import com.example.drinktutorial.View.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 
 public class SearchFragment extends Fragment {

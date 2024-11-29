@@ -11,40 +11,49 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BaiVietController {
-    public ArrayList<BaiViet> Baiviet;
+    public ArrayList<BaiViet> baiViets;
 
     public interface DataStatus{
         void getAllBaiViet(ArrayList<BaiViet> Baiviet);
     }
 
-    public void getListBV(final DoUongController.DataStatus dataStatus) {
-        Baiviet = new ArrayList<>();
+    public void getListBV(final DataStatus dataStatus) {
+        baiViets = new ArrayList<>();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("BaiViet");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Baiviet.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    BaiViet bv = snapshot.getValue(BaiViet.class);
-                    if (bv != null) {
-                        bv.setKeyID(snapshot.getKey());
-                        Baiviet.add(bv);
+            public void onDataChange( DataSnapshot snapshot) {
+                baiViets.clear();
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    try {
+                        String keyID = data.getKey();
+                        String tieuDe = data.child("TieuDe").getValue(String.class);
+                        String noiDung = data.child("NoiDung").getValue(String.class);
+                        String date = data.child("NgayDang").getValue(String.class);
+
+                        // Chuyển đổi HashMap
+                        HashMap<String, String> imgUrl = (HashMap<String, String>) data.child("HinhAnh").getValue();
+
+                        BaiViet baiViet = new BaiViet(keyID, tieuDe, imgUrl, noiDung, date);
+                        baiViets.add(baiViet);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
-//                dataStatus.getAllBaiViet(Baiviet);
+                dataStatus.getAllBaiViet(baiViets);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled( DatabaseError error) {
                 // Xử lý lỗi
-                if (databaseError != null) {
-                    Log.e("Firebase", "Database error: " + databaseError.getMessage());
-                }
+                Log.e("FirebaseError", error.getMessage());
             }
         });
     }
+
 }

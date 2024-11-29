@@ -42,39 +42,39 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        newsRecyclerView = view.findViewById(R.id.news_recycle);
-        progressBar = view.findViewById(R.id.progress_bar);
-        newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        newsList = new ArrayList<>();
-        newsAdapter = new NewsAdapter(getContext(), newsList);
-        newsRecyclerView.setAdapter(newsAdapter);
-
-        // Lấy dữ liệu từ Firebase
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference newsRef = database.getReference("BaiViet");
-
-        // Hiển thị tiến trình khi đang tải dữ liệu
-        progressBar.setVisibility(View.VISIBLE);
-
-        newsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                newsList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    BaiViet news = snapshot.getValue(BaiViet.class);
-                    newsList.add(news);
-                }
-                newsAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Handle possible errors
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+//        newsRecyclerView = view.findViewById(R.id.news_recycle);
+//        progressBar = view.findViewById(R.id.progress_bar);
+//        newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//
+//        newsList = new ArrayList<>();
+//        newsAdapter = new NewsAdapter(getContext(), newsList);
+//        newsRecyclerView.setAdapter(newsAdapter);
+//
+//        // Lấy dữ liệu từ Firebase
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference newsRef = database.getReference("BaiViet");
+//
+//        // Hiển thị tiến trình khi đang tải dữ liệu
+//        progressBar.setVisibility(View.VISIBLE);
+//
+//        newsRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                newsList.clear();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    BaiViet news = snapshot.getValue(BaiViet.class);
+//                    newsList.add(news);
+//                }
+//                newsAdapter.notifyDataSetChanged();
+//                progressBar.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                // Handle possible errors
+//                progressBar.setVisibility(View.GONE);
+//            }
+//        });
 
         return view;
     }
