@@ -131,16 +131,6 @@ public class HomeFragment extends Fragment {
         };
         handler.postDelayed(runnable, 3000);
     }
-//    public void initData()
-//    {
-//        ArrayList<CustomItem> itemList = new ArrayList<>();
-//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-//        itemList.add(new CustomItem("https://images2.thanhnien.vn/zoom/448_280/528068263637045248/2024/10/30/p1-online-173030062963390729935-97-0-737-1024-crop-17303006661241912607037.jpg", "Thần dược chữa bệnh"));
-//
-//    }
-
 
 
     private void addCarouselScrollListener() {
@@ -149,8 +139,6 @@ public class HomeFragment extends Fragment {
             public void onItemClick(BaiViet baiViet) {
                 Bundle bundle = new Bundle();
                 bundle.putString("BaiVietID", baiViet.getKeyID());
-                Log.d("bbbbb", "onItemClick: "+baiViet.getKeyID());
-
                 BaiVietDetailFragment baiVietDetailFragment = new BaiVietDetailFragment();
                 baiVietDetailFragment.setArguments(bundle);
 
@@ -232,19 +220,19 @@ public class HomeFragment extends Fragment {
         baiVietController.getListBV(new BaiVietController.DataStatus() {
             @Override
             public void getAllBaiViet(ArrayList<BaiViet> baiVietList) {
-                // Kiểm tra nếu danh sách có ít hơn 5 bài viết
+
                 int size = baiVietList.size();
                 if (size > 5) {
-                    // Trộn danh sách ngẫu nhiên
+
                     Collections.shuffle(baiVietList);
 
-                    // Lấy 5 bài viết đầu tiên
+
                     ArrayList<BaiViet> randomBaiViet = new ArrayList<>(baiVietList.subList(0, 5));
 
-                    // Cập nhật adapter với danh sách đã chọn
+
                     adapterCarousel = new CustomAdapterCarousel(randomBaiViet);
                 } else {
-                    // Nếu có ít hơn 5 bài viết, dùng toàn bộ
+
                     adapterCarousel = new CustomAdapterCarousel(baiVietList);
                 }
 

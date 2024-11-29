@@ -1,6 +1,7 @@
 package com.example.drinktutorial.Adapter.NewsAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,75 +12,91 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterDoUongs;
 import com.example.drinktutorial.Model.BaiViet;
+import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private Context context;
-    private List<BaiViet> newsList;
 
-    public NewsAdapter(Context context, List<BaiViet> newsList) {
-        this.context = context;
-        this.newsList = newsList;
+    private ArrayList<BaiViet> baiViets;
+    OnItemClickListener listener;
+
+    public NewsAdapter(ArrayList<BaiViet> baiViets) {
+        this.baiViets = baiViets;
+    }
+    public interface OnItemClickListener{
+        void onItemClick(BaiViet baiViet);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.news_recycle_row, parent, false);
-        return new NewsViewHolder(itemView);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_news_item, parent, false);
+        return new ViewHolder(view, listener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        BaiViet currentNews = newsList.get(position);
-        holder.titleNews.setText(currentNews.getTieuDe());
-        holder.contentNews.setText(currentNews.getNoiDung());
-        holder.dateNews.setText(currentNews.getDate());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        BaiViet baiViet = baiViets.get(position);
+        String firstImageUrl = null;
+        if (baiViet.getHinhAnh() != null && !baiViet.getHinhAnh().isEmpty()) {
+            firstImageUrl = baiViet.getHinhAnh().values().iterator().next();
+        }
 
-        Glide.with(context).load(currentNews.getHinhAnh()).into(holder.imgNews);
+        if (firstImageUrl != null) {
+            Glide.with(holder.itemView.getContext())
+                    .load(firstImageUrl)
+                    .into(holder.imgBV);
+        }
+        holder.tvTieuDeBV.setText(baiViet.getTieuDe());
+        String noiDung = baiViet.getNoiDung();
+        if (noiDung.length() > 100) {
+            noiDung = noiDung.substring(0, 100) + "...";
+        }
+        holder.tvNoiDungBV.setText(noiDung);
 
-//        holder.itemView.setOnClickListener(v -> {
-//            // Truyền dữ liệu sang Fragment_Detail_News
-//            Bundle bundle = new Bundle();
-//            bundle.putString("title", currentNews.getTieuDe());
-//            bundle.putString("content", currentNews.getNoiDung());
-//            bundle.putString("imageUrl", currentNews.getImgUrl());
-//            bundle.putString("date", currentNews.getDate());
-//
-//            Fragment fragment = new Fragment_Detail_News();
-//            fragment.setArguments(bundle);
-//
-//            // Chuyển đến Fragment_Detail_News
-//            if (context instanceof AppCompatActivity) {
-//                AppCompatActivity activity = (AppCompatActivity) context;
-//                activity.getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.fragmentLoad, fragment)
-//                        .addToBackStack(null)
-//                        .commit();
-//            }
-//        });
+        holder.itemView.setOnClickListener(view -> {
+            if(listener != null)
+                listener.onItemClick(baiViet);
+        });
+
+        holder.tvNgayDang.setText(baiViet.getDate());
+
     }
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        return baiViets.size();
     }
 
-    public static class NewsViewHolder extends RecyclerView.ViewHolder {
-        TextView titleNews, contentNews ,dateNews;
-        ImageView imgNews;
 
-        public NewsViewHolder(@NonNull View itemView) {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        ImageView imgBV;
+        TextView tvTieuDeBV, tvNoiDungBV, tvNgayDang;
+
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
-            titleNews = itemView.findViewById(R.id.titleNews);
-            contentNews = itemView.findViewById(R.id.contentNews);
-            dateNews = itemView.findViewById(R.id.dateNews);
-            imgNews = itemView.findViewById(R.id.imgNews);
+            imgBV = itemView.findViewById(R.id.imgBV);
+            tvTieuDeBV = itemView.findViewById(R.id.tvTieuDeBV);
+            tvNgayDang = itemView.findViewById(R.id.tvNgayDang);
+            tvNoiDungBV = itemView.findViewById(R.id.tvNoiDungBV);
         }
     }
+
+//    public void updateList(ArrayList<BaiViet> newList) {
+//        this.baiViets = newList;
+//        notifyDataSetChanged(); // Cập nhật lại danh sách cho adapter
+//    }
 }
 

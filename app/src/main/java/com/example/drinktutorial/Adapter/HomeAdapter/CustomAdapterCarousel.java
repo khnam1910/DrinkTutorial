@@ -1,6 +1,8 @@
 package com.example.drinktutorial.Adapter.HomeAdapter;
 
 import com.bumptech.glide.Glide;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,16 +48,14 @@ public class CustomAdapterCarousel extends RecyclerView.Adapter<CustomAdapterCar
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BaiViet baiViet = baiViets.get(position);
 
-        // Lấy URL hình ảnh đầu tiên từ HashMap imgUrl
+
         String firstImageUrl = null;
+
         if (baiViet.getHinhAnh() != null && !baiViet.getHinhAnh().isEmpty()) {
-            for (Map.Entry<String, String> entry : baiViet.getHinhAnh().entrySet()) {
-                firstImageUrl = entry.getValue();
-                break;
-            }
+            firstImageUrl = baiViet.getHinhAnh().values().iterator().next();
         }
 
-        // Load hình ảnh vào ImageView
+
         if (firstImageUrl != null) {
             Glide.with(holder.itemView.getContext())
                     .load(firstImageUrl)

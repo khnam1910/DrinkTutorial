@@ -34,7 +34,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:inputType="textMultiLine"
-
                     android:text="Cooktail Fire"
                     android:textColor="@color/black"
                     android:textSize="24sp"
@@ -54,21 +53,23 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvNoiDung"
+            <LinearLayout
+                android:id="@+id/layoutNoiDung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
+                android:orientation="vertical">
 
-                android:justificationMode="inter_word"
-                android:minLines="5"
-                android:paddingTop="5dp"
-                android:text="Sex On The Beach in the world of coctails refer to a specific category of drinks that have emerged in recent years and have rapidly gained popularity. recognition and a dedicated following within the cocktail industry. These coktails represent a modern twist on traditional recipes or entirely new creations that have achieved iconec sttus in a realtively short period. They reflect the evolving tastes, trends, and innovations in mixology.
-Campari, the right red, bitter aperitif that originated in Milan, serves as the foundation of the Faribaldi coktails. Its deeep, herbal bitterness contrasts beautifully with the sweet, fresh orange juice, creating a balanced drink with both refreshing and complex flavor. The use of freshly squeezed orange juice is essential to the Garibaldi, as it not only enhances the cocktail's sweetness but also provides a frothy texture that gives the drinkd a light and airy quality.
-                The simpicity of the Garibildy belies its versatility. It's a drink that can be injoyed at any time, whether as a pre-dinner aperitivo, a brunch accompaniment.
-                "
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/tvNoiDung"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:justificationMode="inter_word"
+                    android:paddingTop="5dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
 
         </LinearLayout>
