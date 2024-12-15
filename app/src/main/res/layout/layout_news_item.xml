@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:paddingBottom="4dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/title"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:text="Tên Bài Viết" />
@@ -40,11 +40,12 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/description"
             android:textSize="14sp"
             tools:text="Mô tả ngắn về đồ uống sẽ được hiển thị ở đây với tối đa ba dòng để tránh tràn văn bản." />
 
         <TextView
+            android:textColor="@color/description"
             android:layout_marginTop="5dp"
             android:textAlignment="textEnd"
             android:id="@+id/tvNgayDang"

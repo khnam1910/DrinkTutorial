@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="bgColor">#54B5E9</color>
-    <color name="blue">#3D5AFE</color>
+    <color name="white">#F7F7F7</color>
+    <color name="bgColor">#A9E2F5</color>
+    <color name="blue">#1F63F8</color>
+    <color name="title">#171717</color>
     <color name="lavender">#8692f7</color>
+    <color name="description">#939498</color>
 </resources>

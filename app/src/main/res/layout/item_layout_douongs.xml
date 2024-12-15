@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/title"
             android:textStyle="bold"
             android:maxLines="1"
             android:ellipsize="end"
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/description"
             android:maxLines="3"
             android:ellipsize="end"
             tools:text="Mô tả ngắn về đồ uống sẽ được hiển thị ở đây với tối đa ba dòng để tránh tràn văn bản." />
