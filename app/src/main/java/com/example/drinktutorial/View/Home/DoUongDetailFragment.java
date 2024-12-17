@@ -1,5 +1,6 @@
 package com.example.drinktutorial.View.Home;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterHotDrink;
@@ -30,6 +32,9 @@ import com.example.drinktutorial.Model.LoaiNguyenLieu;
 import com.example.drinktutorial.Model.NguyenLieu;
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -45,11 +50,13 @@ public class DoUongDetailFragment extends Fragment {
 
     RecyclerView rycNguyenLieu, rycLDUong;
     ImageView imgDoUongDT;
+    ImageView imgYeuthich;
     TextView tvTenDoUong, tvMoTa, tvBuocPhaChe;
     String idDU;
     LinearLayout layout;
     CustomAdapterHotDrink adapterHotDrink;
     CustomAdapterNguyenLieu adapterNguyenLieu;
+    boolean isFavorite = false; //Lưu trạng thái yêu thích
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +74,7 @@ public class DoUongDetailFragment extends Fragment {
         }
         addControls(view);
         getDoUong(idDU);
+        imgYeuthich.setOnClickListener(v -> toggleFavorite());
         return view;
     }
 
@@ -79,6 +87,7 @@ public class DoUongDetailFragment extends Fragment {
         tvBuocPhaChe=(TextView) view.findViewById(R.id.tvBuocPhaChe);
         rycNguyenLieu = (RecyclerView) view.findViewById(R.id.rycNguyenLieu);
         rycLDUong = (RecyclerView) view.findViewById(R.id.rycLDUong);
+        imgYeuthich = (ImageView) view.findViewById(R.id.imgYeuthich);
     }
 
 
@@ -209,6 +218,8 @@ public void getDoUong(String idDU) {
                adapterHotDrink = new CustomAdapterHotDrink(filterDoUong);
                rycLDUong.setAdapter(adapterHotDrink);
                addItemClickListenerForDoUong();
+
+               checkIfFavorite(idDU);
            }
 
            @Override
@@ -245,6 +256,65 @@ public void getDoUong(String idDU) {
         } else {
             Log.e("HomeFragment", "adapterHotDrink is null");
         }
+    }
+
+    private void toggleFavorite() {
+        // Lấy userId từ SharedPreferences
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LoginPrefs", getContext().MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", null);
+
+        if (userId == null) {
+            Toast.makeText(getContext(), "Bạn cần đăng nhập để thực hiện chức năng này!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("NguoiDung").child(userId);
+
+        if (!isFavorite) {
+            userRef.child("Yeuthich").child(idDU).setValue(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    isFavorite = true;
+                    imgYeuthich.setImageResource(R.drawable.heart);
+                    Toast.makeText(getContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            userRef.child("Yeuthich").child(idDU).removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    isFavorite = false;
+                    imgYeuthich.setImageResource(R.drawable.heart_3_fill);
+                    Toast.makeText(getContext(), "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void checkIfFavorite(String idDU) {
+        // Lấy userId từ SharedPreferences
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LoginPrefs", getContext().MODE_PRIVATE);
+        String currentUserId = sharedPreferences.getString("userId", null);
+
+        if (currentUserId == null) {
+            Toast.makeText(getContext(), "Không thể xác định người dùng!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference("NguoiDung")
+                .child(currentUserId)
+                .child("Yeuthich");
+
+        userRef.child(idDU).get().addOnSuccessListener(snapshot -> {
+            if (snapshot.exists()) {
+                isFavorite = true;
+                imgYeuthich.setImageResource(R.drawable.heart); // Icon đã yêu thích
+            } else {
+                isFavorite = false;
+                imgYeuthich.setImageResource(R.drawable.heart_3_fill); // Icon chưa yêu thích
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(getContext(), "Lỗi kiểm tra trạng thái yêu thích!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
