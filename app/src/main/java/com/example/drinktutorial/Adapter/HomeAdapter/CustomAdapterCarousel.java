@@ -2,11 +2,9 @@ package com.example.drinktutorial.Adapter.HomeAdapter;
 
 import com.bumptech.glide.Glide;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,11 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.drinktutorial.Model.BaiViet;
-import com.example.drinktutorial.Model.CustomItem;
 import com.example.drinktutorial.R;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class CustomAdapterCarousel extends RecyclerView.Adapter<CustomAdapterCarousel.ViewHolder> {
     ArrayList<BaiViet> baiViets;

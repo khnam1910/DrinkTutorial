@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.Profile.Fragment_Save">
+    tools:context=".View.Profile.Fragment_LuuDU">
 
     <LinearLayout
         android:layout_width="match_parent"

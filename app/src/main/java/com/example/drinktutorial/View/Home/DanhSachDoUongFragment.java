@@ -17,6 +17,7 @@ import com.example.drinktutorial.Controller.DoUongController;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.MainActivity;
+import com.example.drinktutorial.View.Profile.Fragment_History;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,8 @@ public class DanhSachDoUongFragment extends Fragment {
 
                         Bundle bundle = new Bundle();
                         bundle.putString("idDoUong",doUong.getKeyID());
+                        Fragment_History fragmentHistory = new Fragment_History();
+                        fragmentHistory.setArguments(bundle);
                         DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
                         doUongDetailFragment.setArguments(bundle);
 

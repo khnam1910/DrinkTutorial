@@ -8,17 +8,17 @@ public class BaiViet {
     private String TieuDe;
     private HashMap<String, String> HinhAnh;
     private String NoiDung;
-    private String date;
+    private String NgayDang;
 
     public BaiViet() {
     }
 
-    public BaiViet(String keyID, String tieuDe, HashMap<String, String> hinhAnh, String noiDung, String date) {
+    public BaiViet(String keyID, String tieuDe, HashMap<String, String> hinhAnh, String noiDung, String ngayDang) {
         this.keyID = keyID;
         this.TieuDe = tieuDe;
         this.HinhAnh = hinhAnh;
         this.NoiDung = noiDung;
-        this.date = date;
+        this.NgayDang = ngayDang;
     }
 
     public String getKeyID() {
@@ -53,11 +53,11 @@ public class BaiViet {
         NoiDung = noiDung;
     }
 
-    public String getDate() {
-        return date;
+    public String getNgayDang() {
+        return NgayDang;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void getNgayDang(String ngayDang) {
+        this.NgayDang = ngayDang;
     }
 }

@@ -71,7 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 listener.onItemClick(baiViet);
         });
 
-        holder.tvNgayDang.setText(baiViet.getDate());
+        holder.tvNgayDang.setText(baiViet.getNgayDang());
 
     }
 

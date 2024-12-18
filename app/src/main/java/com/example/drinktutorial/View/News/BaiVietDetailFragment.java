@@ -1,5 +1,6 @@
 package com.example.drinktutorial.View.News;
 
+import android.content.SharedPreferences;
 import android.graphics.text.LineBreaker;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,12 +15,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.drinktutorial.Controller.BaiVietController;
 import com.example.drinktutorial.Model.BaiViet;
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.MainActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,10 +33,10 @@ public class BaiVietDetailFragment extends Fragment {
 
     TextView tvTenBV, tvNoiDung;
     String idBaiViet;
-    ImageView imgBaiViet;
+    ImageView imgBaiViet, imgBVYeuThich;
 
     LinearLayout layoutNoiDung;
-
+    boolean isFavorite = false; //Lưu trạng thái yêu thích
 
     public BaiVietDetailFragment() {
         // Required empty public constructor
@@ -56,6 +60,7 @@ public class BaiVietDetailFragment extends Fragment {
             }
         }
         getBaiViet(idBaiViet);
+        imgBVYeuThich.setOnClickListener(v -> toggleFavorite());
         return view;
     }
 
@@ -65,6 +70,7 @@ public class BaiVietDetailFragment extends Fragment {
         tvNoiDung = view.findViewById(R.id.tvNoiDung);
         imgBaiViet = view.findViewById(R.id.imgBaiViet);
         layoutNoiDung = view.findViewById(R.id.layoutNoiDung);
+        imgBVYeuThich = view.findViewById(R.id.imgBVYeuThich);
     }
 
     public void getBaiViet(String idBaiViet) {
@@ -91,8 +97,9 @@ public class BaiVietDetailFragment extends Fragment {
                         }
 
                         displayContentWithImages(layoutNoiDung, baiviet.getNoiDung(), imageUrls);
-                    }
+                        checkIfFavorite(idBaiViet);
 
+                    }
                 }
             }
         });
@@ -181,4 +188,62 @@ public class BaiVietDetailFragment extends Fragment {
         }
     }
 
+    private void toggleFavorite() {
+        // Lấy userId từ SharedPreferences
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LoginPrefs", getContext().MODE_PRIVATE);
+        String userId = sharedPreferences.getString("userId", null);
+
+        if (userId == null) {
+            Toast.makeText(getContext(), "Bạn cần đăng nhập để thực hiện chức năng này!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("NguoiDung").child(userId);
+
+        if (!isFavorite) {
+            userRef.child("BaiVietYeuThich").child(idBaiViet).setValue(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    isFavorite = true;
+                    imgBVYeuThich.setImageResource(R.drawable.heart);
+                    Toast.makeText(getContext(), "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            userRef.child("BaiVietYeuThich").child(idBaiViet).removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    isFavorite = false;
+                    imgBVYeuThich.setImageResource(R.drawable.heart_3_fill);
+                    Toast.makeText(getContext(), "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void checkIfFavorite(String idBV) {
+        // Lấy userId từ SharedPreferences
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("LoginPrefs", getContext().MODE_PRIVATE);
+        String currentUserId = sharedPreferences.getString("userId", null);
+
+        if (currentUserId == null) {
+            Toast.makeText(getContext(), "Không thể xác định người dùng!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance()
+                .getReference("NguoiDung")
+                .child(currentUserId)
+                .child("BaiVietYeuThich");
+
+        userRef.child(idBV).get().addOnSuccessListener(snapshot -> {
+            if (snapshot.exists()) {
+                isFavorite = true;
+                imgBVYeuThich.setImageResource(R.drawable.heart); // Icon đã yêu thích
+            } else {
+                isFavorite = false;
+                imgBVYeuThich.setImageResource(R.drawable.heart_3_fill); // Icon chưa yêu thích
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(getContext(), "Lỗi kiểm tra trạng thái yêu thích!", Toast.LENGTH_SHORT).show();
+        });
+    }
 }

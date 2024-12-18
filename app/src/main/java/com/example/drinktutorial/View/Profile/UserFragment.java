@@ -24,7 +24,7 @@ import com.example.drinktutorial.View.MainActivity;
 public class UserFragment extends Fragment {
 
     Button btnLogout;
-    RelativeLayout information, luu_CongThuc, luu_BaiViet, setting, baomat, cskh;
+    RelativeLayout information, luu_CongThuc, luu_BaiViet, setting, lichsuxem, cskh;
     TextView username;
 
     public UserFragment() {
@@ -39,7 +39,7 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-        // Gọi các phương thức để khởi tạo các control và sự kiện
+
         addControls(view);
         addEvents();
 
@@ -56,6 +56,7 @@ public class UserFragment extends Fragment {
         cskh = view.findViewById(R.id.trungtam_hotro);
         setting = view.findViewById(R.id.caidat);
         username = view.findViewById(R.id.username);
+        lichsuxem = view.findViewById(R.id.daxem_ganday);
     }
 
     public void addEvents() {
@@ -79,7 +80,7 @@ public class UserFragment extends Fragment {
         luu_CongThuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment_Save fragmentSave = new Fragment_Save();
+                Fragment_LuuDU fragmentSave = new Fragment_LuuDU();
                 if (getActivity() instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) getActivity();
                     mainActivity.loadFragment(fragmentSave);
@@ -99,20 +100,40 @@ public class UserFragment extends Fragment {
         luu_BaiViet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentLoad, new Fragment_Like());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Fragment_LuuBV fragmentLuuBV = new Fragment_LuuBV();
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(fragmentLuuBV);
+                    mainActivity.updateTitle("Danh sách bài viết yêu thích");
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
             }
         });
 
-        baomat.setOnClickListener(new View.OnClickListener() {
+        lichsuxem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentLoad, new Fragment_Security());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Fragment_History fragmentHistory = new Fragment_History();
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(fragmentHistory);
+                    mainActivity.updateTitle("Lịch sử xem");
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
             }
         });
 

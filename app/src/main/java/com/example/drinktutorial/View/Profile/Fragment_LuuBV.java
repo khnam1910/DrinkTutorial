@@ -10,17 +10,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterDoUongs;
-import com.example.drinktutorial.Adapter.UserAdapter.CustomAdapterFavorites;
+import com.example.drinktutorial.Adapter.NewsAdapter.NewsAdapter;
+import com.example.drinktutorial.Model.BaiViet;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
-import com.example.drinktutorial.View.Home.DoUongDetailFragment;
 import com.example.drinktutorial.View.MainActivity;
+import com.example.drinktutorial.View.News.BaiVietDetailFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,17 +30,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Fragment_Save extends Fragment {
+public class Fragment_LuuBV extends Fragment {
 
-    private ImageView backSetting;
-    RecyclerView recyclerViewFavorites;
-    CustomAdapterDoUongs adapterDoUongs;
-
-    ArrayList<DoUong> favoriteDrinks = new ArrayList<>();
-
-    public Fragment_Save() {
+    RecyclerView rcyNewsFavour;
+    ArrayList<BaiViet> favoriteNews = new ArrayList<>();
+    NewsAdapter newsAdapter;
+    public Fragment_LuuBV() {
     }
 
     @Override
@@ -49,24 +47,25 @@ public class Fragment_Save extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment__save, container, false);
 
-        recyclerViewFavorites = view.findViewById(R.id.recyclerViewFavorites);
-        recyclerViewFavorites.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // Lấy userId từ SharedPreferences
+        View view = inflater.inflate(R.layout.fragment_luu_bv, container, false);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LoginPrefs", getContext().MODE_PRIVATE);
         String userId = sharedPreferences.getString("userId", null);
-
+        addControls(view);
         if (userId != null) {
-            loadFavoriteDrinks(userId);
+            loadFavoriteNews(userId);
         }
 
         return view;
     }
 
-    private void loadFavoriteDrinks(String userId) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("NguoiDung").child(userId).child("Yeuthich");
+    public void addControls(View view)
+    {
+        rcyNewsFavour = view.findViewById(R.id.rcyNewFavour);
+    }
+
+    private void loadFavoriteNews(String userId) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("NguoiDung").child(userId).child("BaiVietYeuThich");
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -76,7 +75,7 @@ public class Fragment_Save extends Fragment {
                     favoriteIds.add(drinkSnapshot.getKey());
                 }
 
-                fetchDrinkDetails(favoriteIds);
+                fetchBaiVietDetails(favoriteIds);
             }
 
             @Override
@@ -84,32 +83,30 @@ public class Fragment_Save extends Fragment {
             }
         });
     }
-
-    private void fetchDrinkDetails(ArrayList<String> favoriteIds) {
-        DatabaseReference drinkRef = FirebaseDatabase.getInstance().getReference("DoUong");
-        drinkRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void fetchBaiVietDetails(ArrayList<String> favoriteBVIds) {
+        DatabaseReference newsRef = FirebaseDatabase.getInstance().getReference("BaiViet");
+        newsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                favoriteDrinks.clear();
+                favoriteNews.clear();
 
                 for (DataSnapshot drinkSnapshot : snapshot.getChildren()) {
-                    DoUong drink = drinkSnapshot.getValue(DoUong.class);
-                    if (drink != null) {
-                        // Gán key của mỗi đồ uống vào đối tượng
-                        drink.setKeyID(drinkSnapshot.getKey());
+                    BaiViet baiViet = drinkSnapshot.getValue(BaiViet.class);
+                    if (baiViet != null) {
 
-                        // Kiểm tra nếu ID nằm trong danh sách yêu thích
-                        if (favoriteIds.contains(drink.getKeyID())) {
-                            favoriteDrinks.add(drink);
+                        baiViet.setKeyID(drinkSnapshot.getKey());
+
+                        if (favoriteBVIds.contains(baiViet.getKeyID())) {
+                            favoriteNews.add(baiViet);
                         }
+
                     }
                 }
+                rcyNewsFavour.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                newsAdapter = new NewsAdapter(favoriteNews);
+                rcyNewsFavour.setAdapter(newsAdapter);
 
-                // Cập nhật Adapter
-                adapterDoUongs = new CustomAdapterDoUongs(favoriteDrinks);
-                recyclerViewFavorites.setAdapter(adapterDoUongs);
-
-                addItemClickListenerForDoUong();
+                addCarouselScrollListener();
             }
 
             @Override
@@ -118,35 +115,29 @@ public class Fragment_Save extends Fragment {
             }
         });
     }
-
-    public void addItemClickListenerForDoUong()
-    {
-        adapterDoUongs.setOnItemClickListener(new CustomAdapterDoUongs.OnItemClickListener() {
+    private void addCarouselScrollListener() {
+        newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(DoUong doUong) {
-//                        Log.d("Test", "onItemClick: "+doUong.getKeyID());
-
+            public void onItemClick(BaiViet baiViet) {
                 Bundle bundle = new Bundle();
-                bundle.putString("idDoUong",doUong.getKeyID());
-                DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
-                doUongDetailFragment.setArguments(bundle);
+                bundle.putString("BaiVietID", baiViet.getKeyID());
+                BaiVietDetailFragment baiVietDetailFragment = new BaiVietDetailFragment();
+                baiVietDetailFragment.setArguments(bundle);
 
-                if(getActivity() instanceof MainActivity)
-                {
+                if (getActivity() instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) getActivity();
-                    mainActivity.loadFragment(doUongDetailFragment);
+                    mainActivity.loadFragment(baiVietDetailFragment);
+
                 }
+
                 AppCompatActivity activity = (AppCompatActivity) getActivity();
                 if (activity != null) {
                     Toolbar toolbar = activity.findViewById(R.id.toolbar);
                     activity.setSupportActionBar(toolbar);
                     activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-                    if (activity.getSupportActionBar() != null) {
-                        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    }
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
             }
         });
     }
-
 }
