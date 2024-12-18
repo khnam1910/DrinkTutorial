@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
-                android:text="Công thức đã lưu"
+                android:text="Công thức yêu thích"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
@@ -42,7 +42,11 @@
             android:background="@android:color/darker_gray"
             android:layout_marginBottom="8dp"/>
 
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFavorites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
 
     </LinearLayout>
 
