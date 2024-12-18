@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,11 +19,12 @@ import android.widget.TextView;
 
 import com.example.drinktutorial.R;
 import com.example.drinktutorial.View.Login;
+import com.example.drinktutorial.View.MainActivity;
 
 public class UserFragment extends Fragment {
 
     Button btnLogout;
-    RelativeLayout information, luu_baiviet, thich_baiviet, setting, baomat, cskh;
+    RelativeLayout information, luu_CongThuc, luu_BaiViet, setting, baomat, cskh;
     TextView username;
 
     public UserFragment() {
@@ -47,11 +51,10 @@ public class UserFragment extends Fragment {
     public void addControls(View view) {
         btnLogout = view.findViewById(R.id.btn_Logout);
         information = view.findViewById(R.id.information);
-        luu_baiviet = view.findViewById(R.id.luu_baiviet);
-        thich_baiviet = view.findViewById(R.id.thich_baiviet);
-        setting = view.findViewById(R.id.setting);
-        baomat = view.findViewById(R.id.baomat);
-        cskh = view.findViewById(R.id.cskh);
+        luu_CongThuc = view.findViewById(R.id.luu_Congthuc);
+        luu_BaiViet = view.findViewById(R.id.luu_BaiViet);
+        cskh = view.findViewById(R.id.trungtam_hotro);
+        setting = view.findViewById(R.id.caidat);
         username = view.findViewById(R.id.username);
     }
 
@@ -73,17 +76,27 @@ public class UserFragment extends Fragment {
             }
         });
 
-        luu_baiviet.setOnClickListener(new View.OnClickListener() {
+        luu_CongThuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentLoad, new Fragment_Save());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Fragment_Save fragmentSave = new Fragment_Save();
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(fragmentSave);
+                    mainActivity.updateTitle("Danh sách yêu thích");
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
             }
         });
 
-        thich_baiviet.setOnClickListener(new View.OnClickListener() {
+        luu_BaiViet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
 
     public Handler handler= new Handler(Looper.getMainLooper());
     public Runnable runnable;
-    TextView tvTitleNew;
+    TextView tvTitleNew, tvShowMore1, tvShowMore2;
     public int currentIndex=0;
     CustomAdapterHotDrink adapterHotDrink;
     CustomAdapterCarousel adapterCarousel;
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
         initializeData();
         customView();
         autoScroll();
-
+        clickShowMore();
         return view;
     }
 
@@ -90,7 +90,8 @@ public class HomeFragment extends Fragment {
         rycLDU = view.findViewById(R.id.rycLDU);
         grdLNL = view.findViewById(R.id.grdLNL);
         progressBar = view.findViewById(R.id.progress_bar);
-
+        tvShowMore1 = view.findViewById(R.id.tvShowmore);
+        tvShowMore2 = view.findViewById(R.id.tvShowMore1);
     }
     private void initializeData() {
         loadLDU();
@@ -166,12 +167,12 @@ public class HomeFragment extends Fragment {
                 bundle.putString("LoaiDoUongID", loaiDoUong.getIdLDU());
                 bundle.putString("tenLDU", loaiDoUong.getTenLoai());
 
-                DoUongListFragment doUongListFragment = new DoUongListFragment();
-                doUongListFragment.setArguments(bundle);
+                DoUongTheoLoaiFragment doUongTheoLoaiFragment = new DoUongTheoLoaiFragment();
+                doUongTheoLoaiFragment.setArguments(bundle);
 
                 if (getActivity() instanceof MainActivity) {
                     MainActivity mainActivity = (MainActivity) getActivity();
-                    mainActivity.loadFragment(doUongListFragment);
+                    mainActivity.loadFragment(doUongTheoLoaiFragment);
 
                 }
 
@@ -215,6 +216,48 @@ public class HomeFragment extends Fragment {
             Log.e("HomeFragment", "adapterHotDrink is null");
         }
     }
+
+    public void clickShowMore()
+    {
+        tvShowMore1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DanhSachDoUongFragment danhSachDoUongFragment = new DanhSachDoUongFragment();
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(danhSachDoUongFragment);
+
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        });
+        tvShowMore2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DanhSachDoUongFragment danhSachDoUongFragment = new DanhSachDoUongFragment();
+                if (getActivity() instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(danhSachDoUongFragment);
+
+                }
+
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        });
+    }
     public void loadBaiViet() {
         BaiVietController baiVietController = new BaiVietController();
         baiVietController.getListBV(new BaiVietController.DataStatus() {
@@ -250,6 +293,11 @@ public class HomeFragment extends Fragment {
             @Override
             public void getALlDoUong(ArrayList<DoUong> doUongs) {
                 Collections.shuffle(doUongs);
+
+                if (doUongs.size() > 10) {
+                    doUongs = new ArrayList<>(doUongs.subList(0, 10));
+                }
+
                 adapterHotDrink = new CustomAdapterHotDrink(doUongs);
                 rycDoUong.setAdapter(adapterHotDrink);
                 addItemClickListenerForDoUong();
@@ -269,6 +317,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void getALlDoUong(ArrayList<DoUong> doUongs) {
                 ArrayList<DoUong> sortedDoUongs = sortDoUongsByDate(doUongs);
+
+                if (sortedDoUongs.size() > 10) {
+                    sortedDoUongs = new ArrayList<>(sortedDoUongs.subList(0, 10));
+                }
                 adapterHotDrink = new CustomAdapterHotDrink(sortedDoUongs);
                 rycDoUong1.setAdapter(adapterHotDrink);
                 addItemClickListenerForDoUong();
@@ -322,6 +374,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void DataIsLoaded(ArrayList<LoaiDoUong> loaiDoUongs) {
                 Collections.shuffle(loaiDoUongs);
+
                 adapterLDU = new CustomAdapterLDU(loaiDoUongs);
                 rycLDU.setAdapter(adapterLDU);
                 addItemClickListenerForLDU();

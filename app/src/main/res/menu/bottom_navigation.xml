@@ -9,7 +9,7 @@
         android:id="@+id/btnSearch"
         android:icon="@drawable/search"
         />
-    <item android:title="Tin tức"
+    <item android:title="Bài viết"
         android:id="@+id/btnNews"
         android:icon="@drawable/news"
         />

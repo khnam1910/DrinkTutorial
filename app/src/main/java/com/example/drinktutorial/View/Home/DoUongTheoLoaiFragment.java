@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterDoUongs;
 import com.example.drinktutorial.Controller.DoUongController;
@@ -24,13 +22,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 
 
-public class DoUongListFragment extends Fragment {
+public class DoUongTheoLoaiFragment extends Fragment {
 
     CustomAdapterDoUongs customAdapterDoUongs;
     RecyclerView rycDoUongs;
     String idLDU, tenLDU;
 
-    public DoUongListFragment() {
+    public DoUongTheoLoaiFragment() {
 
     }
 
@@ -79,7 +77,7 @@ public class DoUongListFragment extends Fragment {
                 customAdapterDoUongs.setOnItemClickListener(new CustomAdapterDoUongs.OnItemClickListener() {
                     @Override
                     public void onItemClick(DoUong doUong) {
-                        Log.d("Test", "onItemClick: "+doUong.getKeyID());
+//                        Log.d("Test", "onItemClick: "+doUong.getKeyID());
 
                         Bundle bundle = new Bundle();
                         bundle.putString("idDoUong",doUong.getKeyID());

@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.drinktutorial.Adapter.HomeAdapter.CustomAdapterDoUongs;
 import com.example.drinktutorial.Adapter.UserAdapter.CustomAdapterFavorites;
 import com.example.drinktutorial.Model.DoUong;
 import com.example.drinktutorial.R;
+import com.example.drinktutorial.View.Home.DoUongDetailFragment;
+import com.example.drinktutorial.View.MainActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +34,9 @@ public class Fragment_Save extends Fragment {
 
     private ImageView backSetting;
     RecyclerView recyclerViewFavorites;
-    CustomAdapterFavorites adapterFavorites;
-    List<DoUong> favoriteDrinks = new ArrayList<>();
+    CustomAdapterDoUongs adapterDoUongs;
+
+    ArrayList<DoUong> favoriteDrinks = new ArrayList<>();
 
     public Fragment_Save() {
     }
@@ -64,10 +70,10 @@ public class Fragment_Save extends Fragment {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<String> favoriteIds = new ArrayList<>();
+                ArrayList<String> favoriteIds = new ArrayList<>();
 
                 for (DataSnapshot drinkSnapshot : snapshot.getChildren()) {
-                    favoriteIds.add(drinkSnapshot.getKey()); // Lấy ID của đồ uống
+                    favoriteIds.add(drinkSnapshot.getKey());
                 }
 
                 fetchDrinkDetails(favoriteIds);
@@ -79,7 +85,7 @@ public class Fragment_Save extends Fragment {
         });
     }
 
-    private void fetchDrinkDetails(List<String> favoriteIds) {
+    private void fetchDrinkDetails(ArrayList<String> favoriteIds) {
         DatabaseReference drinkRef = FirebaseDatabase.getInstance().getReference("DoUong");
         drinkRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -100,8 +106,10 @@ public class Fragment_Save extends Fragment {
                 }
 
                 // Cập nhật Adapter
-                adapterFavorites = new CustomAdapterFavorites(favoriteDrinks);
-                recyclerViewFavorites.setAdapter(adapterFavorites);
+                adapterDoUongs = new CustomAdapterDoUongs(favoriteDrinks);
+                recyclerViewFavorites.setAdapter(adapterDoUongs);
+
+                addItemClickListenerForDoUong();
             }
 
             @Override
@@ -110,16 +118,35 @@ public class Fragment_Save extends Fragment {
             }
         });
     }
-    private void addEvents() {
-        backSetting.setOnClickListener(new View.OnClickListener() {
+
+    public void addItemClickListenerForDoUong()
+    {
+        adapterDoUongs.setOnItemClickListener(new CustomAdapterDoUongs.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                Fragment userFragment = new UserFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentLoad, userFragment)
-                        .addToBackStack(null)
-                        .commit();
+            public void onItemClick(DoUong doUong) {
+//                        Log.d("Test", "onItemClick: "+doUong.getKeyID());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("idDoUong",doUong.getKeyID());
+                DoUongDetailFragment doUongDetailFragment = new DoUongDetailFragment();
+                doUongDetailFragment.setArguments(bundle);
+
+                if(getActivity() instanceof MainActivity)
+                {
+                    MainActivity mainActivity = (MainActivity) getActivity();
+                    mainActivity.loadFragment(doUongDetailFragment);
+                }
+                AppCompatActivity activity = (AppCompatActivity) getActivity();
+                if (activity != null) {
+                    Toolbar toolbar = activity.findViewById(R.id.toolbar);
+                    activity.setSupportActionBar(toolbar);
+                    activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                    if (activity.getSupportActionBar() != null) {
+                        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    }
+                }
             }
         });
     }
+
 }

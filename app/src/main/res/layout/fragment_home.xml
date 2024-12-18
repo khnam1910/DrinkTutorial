@@ -120,16 +120,7 @@
                     android:textStyle="bold"
                     android:text="Loại đồ uống " />
 
-                <TextView
-                    android:id="@+id/tvShowMore3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="17sp"
-                    android:gravity="right"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    android:text="Xem thêm" />
+
 
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView

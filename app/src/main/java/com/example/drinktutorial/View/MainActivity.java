@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     loadFragment(new NewsFragment());
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                    tvTitle.setText("Tin tức");
+                    tvTitle.setText("Bài viết");
 
                     return true;
                 }

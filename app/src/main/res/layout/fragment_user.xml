@@ -130,182 +130,184 @@
 
     </LinearLayout>
 
-    <RelativeLayout
+    <!-- Options Section -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:id="@+id/luu_baiviet">
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/icon_save"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/heart">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Công thức yêu thích -->
+        <RelativeLayout
+            android:id="@+id/luu_Congthuc"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/icon_save"
-            android:text="Công thức yêu thích"
-            android:textColor="#202020"
-            android:textSize="20dp"></TextView>
+            android:paddingVertical="12dp">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark">
+            <ImageView
+                android:id="@+id/icon_save"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/heart" />
 
-        </ImageView>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_save"
+                android:layout_marginLeft="16dp"
+                android:layout_centerVertical="true"
+                android:text="Công thức yêu thích"
+                android:textColor="#202020"
+                android:textSize="18sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:id="@+id/thich_baiviet">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/arrow_dark" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/icon_ar"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/like">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Đã xem gần đây -->
+        <RelativeLayout
+            android:id="@+id/daxem_ganday"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/icon_ar"
-            android:text="Bài viết yêu thích"
-            android:textColor="#202020"
-            android:textSize="20dp"></TextView>
+            android:paddingVertical="12dp">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark">
+            <ImageView
+                android:id="@+id/icon_recent"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/history" />
 
-        </ImageView>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_recent"
+                android:layout_marginLeft="16dp"
+                android:layout_centerVertical="true"
+                android:text="Đã xem gần đây"
+                android:textColor="#202020"
+                android:textSize="18sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:id="@+id/setting">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/arrow_dark" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/icon_set"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/settings">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/luu_BaiViet"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/icon_set"
-            android:text="Cài đặt"
-            android:textColor="#202020"
-            android:textSize="20dp"></TextView>
+            android:paddingVertical="12dp">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark">
+            <ImageView
+                android:id="@+id/icon_News"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/post" />
 
-        </ImageView>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_News"
+                android:layout_marginLeft="16dp"
+                android:layout_centerVertical="true"
+                android:text="Bài viết yêu thích"
+                android:textColor="#202020"
+                android:textSize="18sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:id="@+id/baomat">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/arrow_dark" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/icon_sh"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/shield">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Trung tâm hỗ trợ -->
+        <RelativeLayout
+            android:id="@+id/trungtam_hotro"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/icon_sh"
-            android:text="Bảo mật"
-            android:textColor="#202020"
-            android:textSize="20dp"></TextView>
+            android:paddingVertical="12dp">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark">
+            <ImageView
+                android:id="@+id/icon_support"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/support" />
 
-        </ImageView>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_support"
+                android:layout_marginLeft="16dp"
+                android:layout_centerVertical="true"
+                android:text="Trung tâm hỗ trợ"
+                android:textColor="#202020"
+                android:textSize="18sp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:id="@+id/cskh">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/arrow_dark" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/icon_ser"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/support">
-
-        </ImageView>
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Cài đặt -->
+        <RelativeLayout
+            android:id="@+id/caidat"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/icon_ser"
-            android:text="Chăm sóc khách hàng"
-            android:textColor="#202020"
-            android:textSize="20dp"></TextView>
+            android:paddingVertical="12dp">
 
-        <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/arrow_dark">
+            <ImageView
+                android:id="@+id/icon_settings"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/settings" />
 
-        </ImageView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/icon_settings"
+                android:layout_marginLeft="16dp"
+                android:layout_centerVertical="true"
+                android:text="Cài đặt"
+                android:textColor="#202020"
+                android:textSize="18sp" />
 
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/arrow_dark" />
+        </RelativeLayout>
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/btn_Logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="#DB0F0F"
         android:textSize="16dp"
         android:text="Đăng xuất" />
