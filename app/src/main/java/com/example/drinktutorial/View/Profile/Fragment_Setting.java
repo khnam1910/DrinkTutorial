@@ -18,7 +18,7 @@ import com.example.drinktutorial.View.Login;
 
 
 public class Fragment_Setting extends Fragment {
-    private ImageView backSetting;
+
     private TextView logout;
 
     public Fragment_Setting() {
@@ -38,7 +38,7 @@ public class Fragment_Setting extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_blank__setting, container, false);
         logout = view.findViewById(R.id.logout);
-        backSetting = view.findViewById(R.id.backSetting);
+
         addEvents();
         return view;
     }
@@ -60,15 +60,6 @@ public class Fragment_Setting extends Fragment {
             }
         });
 
-        backSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment userFragment = new UserFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentLoad, userFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+
     }
 }

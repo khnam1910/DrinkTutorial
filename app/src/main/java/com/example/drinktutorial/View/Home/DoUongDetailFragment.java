@@ -165,7 +165,7 @@ public void getDoUong(String idDU) {
 
                         LinearLayout.LayoutParams quantityParams = new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-                        quantityParams.gravity = Gravity.END; // Căn bên phải
+                        quantityParams.gravity = Gravity.END;
                         quantityView.setLayoutParams(quantityParams);
 
                         horizontalLayout.addView(nameView);

@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 if(R.id.btnHome == item.getItemId())
                 {
                     loadFragment(new HomeFragment());
-                    Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
                     tvTitle.setText("Trang chủ");
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     return true;
